@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "846756640287",
+    "project_id": "evahak-6384c",
+    "storage_bucket": "evahak-6384c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:846756640287:android:bd2ff31a45b970eacf872a",
+        "android_client_info": {
+          "package_name": "com.example.e_vahak"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEJdfN9VtgS33wdqrOZ4Mg8Zz5Lm2sqc4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
