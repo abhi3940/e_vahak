@@ -39,6 +39,7 @@ dependencies:
   riverpod: ^2.4.9
   flutter_riverpod: ^2.4.9
   routemaster: ^1.0.1
+  firebase_auth: ^4.16.0
 
 dev_dependencies:
   flutter_test:

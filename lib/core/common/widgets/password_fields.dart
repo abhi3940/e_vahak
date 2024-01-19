@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 class PasswordField extends StatefulWidget {
   final String hint;
-
-  const PasswordField({Key? key, required this.hint}) : super(key: key);
+  final TextEditingController controller;
+  const PasswordField({Key? key, required this.hint, required this.controller}) : super(key: key);
 
   @override
   _PasswordFieldState createState() => _PasswordFieldState();
@@ -24,6 +24,7 @@ class _PasswordFieldState extends State<PasswordField> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextField(
+        controller: widget.controller,
         style: Theme.of(context)
                             .textTheme
                             .titleSmall,

@@ -3,13 +3,15 @@ import 'package:flutter/material.dart';
 
 class CustomTextFeilds extends StatelessWidget {
   final String hint;
-  const CustomTextFeilds({super.key, required this.hint});
+  final TextEditingController controller;
+  const CustomTextFeilds({super.key, required this.hint, required this.controller});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
+                  controller: controller,
                   style: Theme.of(context)
                           .textTheme
                           .titleSmall,

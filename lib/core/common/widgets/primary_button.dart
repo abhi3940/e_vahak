@@ -5,12 +5,13 @@ class PrimaryButton extends StatelessWidget {
   final String title;
   final Function(BuildContext) onTapBtn; // Modify this line
 
-  const PrimaryButton({Key? key, required this.title, required this.onTapBtn}) : super(key: key); // Modify this line
+  const PrimaryButton({Key? key, required this.title, required this.onTapBtn})
+      : super(key: key); // Modify this line
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0).copyWith(bottom: 20),
+      padding: const EdgeInsets.all(8.0).copyWith(top: 0),
       child: SizedBox(
         width: double.infinity,
         child: ElevatedButton(
@@ -28,6 +29,5 @@ class PrimaryButton extends StatelessWidget {
         ),
       ),
     );
-    
   }
 }

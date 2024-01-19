@@ -59,7 +59,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'e-Vahak',
       routerDelegate: RoutemasterDelegate(routesBuilder: (context) {
-        return loggedOutRoutes;
+        return loggedInRoutes;
       }),
       routeInformationParser: const RoutemasterParser(),
     );

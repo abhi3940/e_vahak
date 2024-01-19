@@ -1,5 +1,7 @@
 import 'package:e_vahak/core/common/widgets/primary_button.dart';
+import 'package:e_vahak/theme/pallete.dart';
 import 'package:flutter/material.dart';
+import 'package:routemaster/routemaster.dart';
 
 class PassengerDetails extends StatefulWidget {
   const PassengerDetails({super.key});
@@ -8,7 +10,12 @@ class PassengerDetails extends StatefulWidget {
   State<PassengerDetails> createState() => _PassengerDetailsState();
 }
 
+//call this function on button click to navigate to next screen
 class _PassengerDetailsState extends State<PassengerDetails> {
+  void naviateToConformation(BuildContext context) {
+    Routemaster.of(context).push('/conformation');
+  }
+
   final color = const Color.fromRGBO(189, 189, 189, 1);
   final List<String> detailList = ["Full Tickets", "Half Tickets"];
   final divide = const Padding(
@@ -34,18 +41,10 @@ class _PassengerDetailsState extends State<PassengerDetails> {
         ),
         elevation: 0,
         backgroundColor: const Color.fromRGBO(246, 246, 246, 1),
-        leading: Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              // Add function to revert to previous page
-              onPressed: () {},
-              icon: Icon(
-                Icons.close,
-                color: color,
-              ),
-            );
-          },
-        ),
+        leading: IconButton(
+            icon: const Icon(Icons.close, color: Pallete.grey3),
+            onPressed: () => Navigator.pop(context),
+          ),
       ),
       body: Column(
         children: [
