@@ -50,8 +50,10 @@ class MyApp extends StatelessWidget {
                   color: Pallete.backgroundColor,
                 ),
                 titleSmall: TextStyle(
-                  fontSize: 19,
-                  fontWeight: FontWeight.w400,
+                  fontSize: 17,
+                  fontWeight: FontWeight.w300,
+                  color: Colors.black,
+
                 ),
               ),
         
