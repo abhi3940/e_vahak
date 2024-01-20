@@ -58,7 +58,7 @@ class _PassengerDetailsState extends State<PassengerDetails> {
           ),
           PrimaryButton(
             title: "Done",
-            onTapBtn: (p0) {},
+            onTapBtn: naviateToConformation,
           ),
         ],
       ),

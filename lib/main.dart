@@ -30,10 +30,10 @@ class MyApp extends StatelessWidget {
           elevation: 0,
           centerTitle: true,
         ),
-
         //check out the text_theme.dart file
         // use the textTheme like style: Theme.of(context).textTheme.titleLarge,
         textTheme: textTheme,
+        
       ),
       debugShowCheckedModeBanner: false,
       title: 'e-Vahak',
