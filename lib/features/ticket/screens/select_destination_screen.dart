@@ -61,39 +61,42 @@ class _SelectDestinationScreenState extends State<SelectDestinationScreen> {
                   child: ListView.builder(
                       itemCount: stops.length,
                       itemBuilder: (context, index) {
-                        return widget.selectedSource >= index?Container():Container(
-                            padding: const EdgeInsets.all(16.0)
-                                .copyWith(top: 0, bottom: 0),
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
+                        return widget.selectedSource >= index
+                            ? Container()
+                            : Container(
+                                padding: const EdgeInsets.all(16.0)
+                                    .copyWith(top: 0, bottom: 0),
+                                child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      Radio(
-                                          value: index,
-                                          groupValue: selectedRadio,
-                                          onChanged: (value) {
-                                            setState(() {
-                                              selectedRadio = value as int;
-                                            });
-                                          }),
-                                      const SizedBox(
-                                        width: 10,
+                                      Row(
+                                        children: [
+                                          Radio(
+                                              value: index,
+                                              groupValue: selectedRadio,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  selectedRadio = value as int;
+                                                });
+                                              }),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          Text(
+                                            stops[index]['name'] as String,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleSmall,
+                                          ),
+                                        ],
                                       ),
-                                      Text(
-                                        stops[index]['name'] as String,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleSmall,
+                                      const Divider(
+                                        color: Pallete.grey3,
+                                        thickness: 1,
                                       ),
-                                    ],
-                                  ),
-                                  const Divider(
-                                    color: Pallete.grey3,
-                                    thickness: 1,
-                                  ),
-                                ]),
-                          );
+                                    ]),
+                              );
                       })),
               TextButton(
                   onPressed: () {},
