@@ -29,7 +29,7 @@ class _SelectDestinationScreenState extends State<SelectDestinationScreen> {
           ),
           leading: IconButton(
             icon: const Icon(Icons.close, color: Pallete.grey3),
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => Routemaster.of(context).pop(),
           ),
         ),
         body: Padding(
@@ -103,7 +103,11 @@ class _SelectDestinationScreenState extends State<SelectDestinationScreen> {
                   child: Text(
                       'Selected Source:${stops[widget.selectedSource]['name']}',
                       style: Theme.of(context).textTheme.bodySmall)),
-              PrimaryButton(title: 'Next', onTapBtn: (){}),
+              PrimaryButton(
+                  title: 'Next',
+                  onTapBtn: () {
+                    naviateToAddTicketDetails(context);
+                  }),
               const SizedBox(
                 height: 20,
               ),

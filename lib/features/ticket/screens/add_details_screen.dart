@@ -43,7 +43,7 @@ class _PassengerDetailsState extends State<PassengerDetails> {
         backgroundColor: const Color.fromRGBO(246, 246, 246, 1),
         leading: IconButton(
             icon: const Icon(Icons.close, color: Pallete.grey3),
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => Routemaster.of(context).pop(),
           ),
       ),
       body: Column(

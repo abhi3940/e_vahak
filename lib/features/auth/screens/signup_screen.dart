@@ -13,9 +13,15 @@ import 'package:routemaster/routemaster.dart';
 void naviateToLogin(BuildContext context) {
   Routemaster.of(context).push('/login');
 }
+
 void naviateToHome(BuildContext context) {
-  Routemaster.of(context).push('/');
+  Routemaster.of(context).push('/home');
 }
+
+void naviateToDone(BuildContext context) {
+  Routemaster.of(context).push('/done');
+}
+
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
@@ -25,25 +31,25 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   String? errorText = '';
-  final TextEditingController mobileNumberController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController adharnoController = TextEditingController();
 
-
-  Future<void> createUserWithEmailAndPassword() async{
-    try{
+  Future<void> createUserWithEmailAndPassword() async {
+    try {
       await AuthRepository().createUserWithEmailAndPassword(
-        email: mobileNumberController.text,
+        email: emailController.text,
         password: passwordController.text,
         adharNumber: int.parse(adharnoController.text),
       );
-    } on FirebaseAuthException{
+    } on FirebaseAuthException {
       setState(() {
         errorText = 'Something went wrong';
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,10 +79,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
               const SizedBox(
                 height: 40,
               ),
-               CustomTextFeilds(hint: 'Name', controller: nameController),
-               CustomTextFeilds(hint: 'Mobile Number', controller: mobileNumberController,),
-               CustomTextFeilds(hint: 'Aadhar-card Number', controller: adharnoController, inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),],),
-               PasswordField(hint: 'Password', controller: passwordController,),
+              CustomTextFeilds(hint: 'Name', controller: nameController),
+              CustomTextFeilds(
+                hint: 'E-Mail',
+                controller: emailController,
+              ),
+              CustomTextFeilds(
+                hint: 'Aadhar-card Number',
+                controller: adharnoController,
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                ],
+              ),
+              PasswordField(
+                hint: 'Password',
+                controller: passwordController,
+              ),
               const Spacer(),
               TextButton(
                   onPressed: () {
@@ -84,8 +102,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   },
                   child: Text('Already have an Account?',
                       style: Theme.of(context).textTheme.bodySmall)),
-              PrimaryButton(title: 'Sign Up', onTapBtn: () async {
+              PrimaryButton(
+                  title: 'Sign Up',
+                  onTapBtn: () async{
+                    print('start');
                     await createUserWithEmailAndPassword();
+                    print('done');
                     naviateToHome(context);
                   }),
               const SizedBox(

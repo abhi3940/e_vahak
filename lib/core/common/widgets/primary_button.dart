@@ -21,7 +21,7 @@ class PrimaryButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(90),
             ),
           ),
-          onPressed: () => onTapBtn, // Modify this line
+          onPressed:  onTapBtn, // Modify this line
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(title, style: Theme.of(context).textTheme.bodyMedium),

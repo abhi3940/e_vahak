@@ -13,8 +13,13 @@ import 'package:routemaster/routemaster.dart';
 void naviateToSignUp(BuildContext context) {
   Routemaster.of(context).push('/signup');
 }
+
 void naviateToHome(BuildContext context) {
-  Routemaster.of(context).push('/');
+  Routemaster.of(context).push('/home');
+}
+
+void naviateToDone(BuildContext context) {
+  Routemaster.of(context).push('/done');
 }
 
 class LoginScreen extends StatefulWidget {
@@ -31,12 +36,13 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController mobileNumberController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  Future<void> signInWithEmailPassword() async {
+  Future<bool> signInWithEmailPassword() async {
     try {
       await AuthRepository().signInWithEmailAndPassword(
         email: mobileNumberController.text,
         password: passwordController.text,
       );
+      return true; // Sign-in successful
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         setState(() {
@@ -47,6 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
           errorText = 'Wrong password provided for that user.';
         });
       }
+      return false; // Sign-in failed
     }
   }
 
@@ -95,8 +102,10 @@ class _LoginScreenState extends State<LoginScreen> {
               PrimaryButton(
                   title: 'Log In',
                   onTapBtn: () async {
-                    await signInWithEmailPassword();
-                    naviateToHome(context);
+                    final signInSuccessful = await signInWithEmailPassword();
+                    if (signInSuccessful) {
+                      naviateToHome(context);
+                    }
                   }),
               const SizedBox(
                 height: 20,
@@ -104,6 +113,5 @@ class _LoginScreenState extends State<LoginScreen> {
             ],
           ),
         ));
-    ;
   }
 }

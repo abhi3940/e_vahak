@@ -28,7 +28,7 @@ class _SelectSourceScreenState extends State<SelectSourceScreen> {
           ),
           leading: IconButton(
             icon: const Icon(Icons.close, color: Pallete.grey3),
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => Routemaster.of(context).pop(),
           ),
         ),
         body: Padding(

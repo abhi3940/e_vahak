@@ -2,11 +2,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_vahak/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+final authRepositoryProvider = Provider<AuthRepository>((ref) => AuthRepository());
+
+// Provider for UserModel. It uses StateProvider to manage the state of the user.
+final userProvider = StateProvider<UserModel?>((ref) => null);
 
 class AuthRepository {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   User? get currentUser => _firebaseAuth.currentUser;
+
+  CollectionReference users =
+          FirebaseFirestore.instance.collection('users');
 
   Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
 
@@ -14,10 +24,15 @@ class AuthRepository {
     required String email,
     required String password,
   }) async {
-    UserCredential userCredential = await _firebaseAuth.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+     try {
+      UserCredential userCredential= await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
+
+      // Save the sign-in state
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('signedIn', true);
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future<void> createUserWithEmailAndPassword({
@@ -41,7 +56,7 @@ class AuthRepository {
         email: email,
         password: password,
         uid: uid,
-        adharNumber: 0,
+        adharNumber: adharNumber,
       );
       CollectionReference users =
           FirebaseFirestore.instance.collection('users');
@@ -63,5 +78,21 @@ class AuthRepository {
 
   Future<void> signOut() async {
     await _firebaseAuth.signOut();
+
+    // Clear the sign-in state
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('signedIn', false);
+  }
+
+  Future<bool> isSignedIn() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('signedIn') ?? false;
+  }
+
+  // This method retrieves a user's data from Firestore and maps it to a UserModel object.
+  // It returns a Stream<UserModel>, which means it provides the user model in a stream that updates whenever the user's data changes in Firestore.
+  Stream<UserModel> getUserData(String uid) {
+    return users.doc(uid).snapshots().map(
+        (event) => UserModel.fromMap(event.data() as Map<String, dynamic>));
   }
 }

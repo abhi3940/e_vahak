@@ -1,5 +1,6 @@
 import 'package:e_vahak/theme/pallete.dart';
 import 'package:flutter/material.dart';
+import 'package:routemaster/routemaster.dart';
 
 class Confirm extends StatelessWidget {
   const Confirm({Key? key}) : super(key: key);
@@ -60,7 +61,11 @@ class Confirm extends StatelessWidget {
                       style: TextButton.styleFrom(
                         primary: Color.fromRGBO(15, 163, 210, 1),
                       ),
-                      child: Text("Cancelss"),
+                      child: TextButton(
+                          onPressed: () {
+                            Routemaster.of(context).pop();
+                          },
+                          child: Text("Cancel")),
                     ),
                   ),
                 ],

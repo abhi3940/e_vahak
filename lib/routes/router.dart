@@ -1,3 +1,5 @@
+import 'package:e_vahak/core/common/extra_screens/done.dart';
+import 'package:e_vahak/core/common/widgets/loader.dart';
 import 'package:e_vahak/features/auth/screens/login_screen.dart';
 import 'package:e_vahak/features/auth/screens/signup_screen.dart';
 import 'package:e_vahak/features/home/screens/home_screen.dart';
@@ -12,17 +14,28 @@ final loggedOutRoutes = RouteMap(
   routes: {
     '/': (_) => const MaterialPage<void>(child: LoginScreen()),
     '/signup': (_) => const MaterialPage<void>(child: SignUpScreen()),
+    '/done': (_) => const MaterialPage<void>(child: Done()),
   },
 );
 
 final loggedInRoutes = RouteMap(
   routes: {
-    '/': (_) => const MaterialPage<void>(child: HomeScreen()),
+    '/': (_) => const MaterialPage<void>(child: LoginScreen()),
+    '/signup': (_) => const MaterialPage<void>(child: SignUpScreen()),
+    '/done': (_) => const MaterialPage<void>(child: Done()),
+    '/home': (_) => const MaterialPage<void>(child: HomeScreen()),
     '/selectSource': (_) => const MaterialPage<void>(child: SelectSourceScreen()),
     '/selectDestination/:index': (route) => MaterialPage(child: SelectDestinationScreen(selectedSource: int.parse(route.pathParameters['index']!))),
     '/addticketDetails': (_) => const MaterialPage<void>(child: PassengerDetails()),
     '/conformation': (_) => const MaterialPage<void>(child: Confirm()),
 
+
+  },
+);
+
+final lodding = RouteMap(
+  routes: {
+    '/': (_) => const MaterialPage<void>(child: Loader()),
 
   },
 );
