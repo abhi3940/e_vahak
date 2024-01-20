@@ -68,9 +68,9 @@ class HomeScreen extends StatelessWidget {
               ),
               const Spacer(),
               PrimaryButton(
-                  title: 'Book Pass', onTapBtn: naviateToSelectSource),
+                  title: 'Book Pass', onTapBtn: (){}),
               PrimaryButton(
-                  title: 'Book Tickets', onTapBtn: naviateToSelectSource),
+                  title: 'Book Tickets', onTapBtn: ()=> naviateToSelectSource(context)),
               const SizedBox(
                 height: 20,
               ),

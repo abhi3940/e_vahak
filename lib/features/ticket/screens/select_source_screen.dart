@@ -95,7 +95,7 @@ class _SelectSourceScreenState extends State<SelectSourceScreen> {
                       })),
               
               PrimaryButton(
-                  title: 'Next', onTapBtn: naviateToSelectDestination),
+                  title: 'Next', onTapBtn: ()=> naviateToSelectDestination(context)),
               const SizedBox(
                 height: 20,
               ),

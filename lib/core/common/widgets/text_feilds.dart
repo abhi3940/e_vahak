@@ -1,10 +1,17 @@
 import 'package:e_vahak/theme/pallete.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CustomTextFeilds extends StatelessWidget {
   final String hint;
   final TextEditingController controller;
-  const CustomTextFeilds({super.key, required this.hint, required this.controller});
+  final List<TextInputFormatter> inputFormatters;
+
+  CustomTextFeilds({
+    required this.hint,
+    required this.controller,
+    this.inputFormatters = const [],  // Default to an empty list
+  });
 
   @override
   Widget build(BuildContext context) {

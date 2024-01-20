@@ -7,14 +7,12 @@ class UserModel {
   final String name;
   final String email;
   final String password;
-  final List tickets;
   final String uid;
   final int adharNumber;
   UserModel({
     required this.name,
     required this.email,
     required this.password,
-    required this.tickets,
     required this.uid,
     required this.adharNumber,
   });
@@ -23,7 +21,6 @@ class UserModel {
     String? name,
     String? email,
     String? password,
-    List? tickets,
     String? uid,
     int? adharNumber,
   }) {
@@ -31,7 +28,6 @@ class UserModel {
       name: name ?? this.name,
       email: email ?? this.email,
       password: password ?? this.password,
-      tickets: tickets ?? this.tickets,
       uid: uid ?? this.uid,
       adharNumber: adharNumber ?? this.adharNumber,
     );
@@ -42,7 +38,6 @@ class UserModel {
       'name': name,
       'email': email,
       'password': password,
-      'tickets': tickets,
       'uid': uid,
       'adharNumber': adharNumber,
     };
@@ -53,7 +48,6 @@ class UserModel {
       name: map['name'] as String,
       email: map['email'] as String,
       password: map['password'] as String,
-      tickets: List.from((map['tickets'] as List)),
       uid: map['uid'] as String,
       adharNumber: map['adharNumber'] as int,
     );
@@ -65,7 +59,7 @@ class UserModel {
 
   @override
   String toString() {
-    return 'UserModel(name: $name, email: $email, password: $password, tickets: $tickets, uid: $uid, adharNumber: $adharNumber)';
+    return 'UserModel(name: $name, email: $email, password: $password, uid: $uid, adharNumber: $adharNumber)';
   }
 
   @override
@@ -76,7 +70,6 @@ class UserModel {
       other.name == name &&
       other.email == email &&
       other.password == password &&
-      listEquals(other.tickets, tickets) &&
       other.uid == uid &&
       other.adharNumber == adharNumber;
   }
@@ -86,7 +79,6 @@ class UserModel {
     return name.hashCode ^
       email.hashCode ^
       password.hashCode ^
-      tickets.hashCode ^
       uid.hashCode ^
       adharNumber.hashCode;
   }

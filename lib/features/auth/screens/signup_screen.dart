@@ -6,11 +6,15 @@ import 'package:e_vahak/theme/pallete.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
 
 void naviateToLogin(BuildContext context) {
   Routemaster.of(context).push('/login');
+}
+void naviateToHome(BuildContext context) {
+  Routemaster.of(context).push('/');
 }
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -32,6 +36,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       await AuthRepository().createUserWithEmailAndPassword(
         email: mobileNumberController.text,
         password: passwordController.text,
+        adharNumber: int.parse(adharnoController.text),
       );
     } on FirebaseAuthException{
       setState(() {
@@ -70,7 +75,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
                CustomTextFeilds(hint: 'Name', controller: nameController),
                CustomTextFeilds(hint: 'Mobile Number', controller: mobileNumberController,),
-               CustomTextFeilds(hint: 'Aadhar-card Number', controller: adharnoController,),
+               CustomTextFeilds(hint: 'Aadhar-card Number', controller: adharnoController, inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),],),
                PasswordField(hint: 'Password', controller: passwordController,),
               const Spacer(),
               TextButton(
@@ -79,7 +84,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   },
                   child: Text('Already have an Account?',
                       style: Theme.of(context).textTheme.bodySmall)),
-              PrimaryButton(title: 'Sign Up', onTapBtn: naviateToLogin),
+              PrimaryButton(title: 'Sign Up', onTapBtn: () async {
+                    await createUserWithEmailAndPassword();
+                    naviateToHome(context);
+                  }),
               const SizedBox(
                 height: 20,
               ),

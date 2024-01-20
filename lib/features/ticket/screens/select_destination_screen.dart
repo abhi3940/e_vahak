@@ -103,7 +103,7 @@ class _SelectDestinationScreenState extends State<SelectDestinationScreen> {
                   child: Text(
                       'Selected Source:${stops[widget.selectedSource]['name']}',
                       style: Theme.of(context).textTheme.bodySmall)),
-              PrimaryButton(title: 'Next', onTapBtn: naviateToAddTicketDetails),
+              PrimaryButton(title: 'Next', onTapBtn: (){}),
               const SizedBox(
                 height: 20,
               ),
