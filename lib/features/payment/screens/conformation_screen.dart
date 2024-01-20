@@ -60,7 +60,7 @@ class Confirm extends StatelessWidget {
                       style: TextButton.styleFrom(
                         primary: Color.fromRGBO(15, 163, 210, 1),
                       ),
-                      child: Text("Cancel"),
+                      child: Text("Cancelss"),
                     ),
                   ),
                 ],
