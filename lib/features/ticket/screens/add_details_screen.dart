@@ -1,17 +1,21 @@
 import 'package:e_vahak/core/common/widgets/primary_button.dart';
 import 'package:e_vahak/theme/pallete.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
+import 'package:e_vahak/features/ticket/repository/ticket_repository.dart';
 
-class PassengerDetails extends StatefulWidget {
+
+
+
+class PassengerDetails extends ConsumerStatefulWidget {
   const PassengerDetails({super.key});
 
   @override
-  State<PassengerDetails> createState() => _PassengerDetailsState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _PassengerDetailsState();
 }
 
-//call this function on button click to navigate to next screen
-class _PassengerDetailsState extends State<PassengerDetails> {
+class _PassengerDetailsState extends ConsumerState<PassengerDetails> {
   void naviateToConformation(BuildContext context) {
     Routemaster.of(context).push('/conformation');
   }
@@ -28,6 +32,8 @@ class _PassengerDetailsState extends State<PassengerDetails> {
 
   @override
   Widget build(BuildContext context) {
+    final ticket = ref.watch(ticketProvider);
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -64,8 +70,7 @@ class _PassengerDetailsState extends State<PassengerDetails> {
       ),
     );
   }
-
-  _buildDetails({required String detail}) {
+   _buildDetails({required String detail}) {
     return Container(
       padding: const EdgeInsets.all(12),
       child: Row(
@@ -73,7 +78,6 @@ class _PassengerDetailsState extends State<PassengerDetails> {
         children: [
           Text(
             detail,
-            style: Theme.of(context).textTheme.titleSmall,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
