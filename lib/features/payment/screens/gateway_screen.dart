@@ -29,7 +29,7 @@ class _PaymentGateScreenState extends State<PaymentGateScreen> {
             Text("Scan Result: ${widget.result}"),
             PrimaryButton(
               title: "Done",
-              onTapBtn: navigateToConfirmation,
+              onTapBtn: ()=>navigateToConfirmation,
             ),
           ],
         ),

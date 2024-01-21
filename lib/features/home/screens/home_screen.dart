@@ -84,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   title: 'Book Pass', onTapBtn: (){}),
               PrimaryButton(
-                  title: 'Book Tickets', onTapBtn: ()=> naviateToSelectSource(context)),
+                  title: 'Book Tickets', onTapBtn: ()=> navigateToSelectSource(context)),
 
               const SizedBox(
                 height: 20,
