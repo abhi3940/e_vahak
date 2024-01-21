@@ -5,8 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:e_vahak/features/ticket/repository/ticket_repository.dart';
 import 'package:routemaster/routemaster.dart';
 
-class Confirm extends ConsumerWidget {
-  const Confirm({Key? key}) : super(key: key);
+class ConfirmScreen extends ConsumerWidget {
+  const ConfirmScreen({Key? key}) : super(key: key);
   int calculatePrice(int full,int half){
     return (full*20)+(half*10);
   }
