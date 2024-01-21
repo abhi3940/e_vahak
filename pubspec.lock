@@ -97,7 +97,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.0"
-
   file:
     dependency: transitive
     description:
@@ -106,7 +105,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.0.0"
-
   firebase_auth:
     dependency: "direct main"
     description:
@@ -258,7 +256,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.8.3"
-
   path_provider:
     dependency: "direct main"
     description:
@@ -283,7 +280,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.2"
-
   path_provider_linux:
     dependency: transitive
     description:

@@ -99,7 +99,7 @@ class _PassengerDetailsState extends ConsumerState<PassengerDetails> {
       ),
     );
   }
-   _buildDetails({required String detail}) {
+   _buildDetails({required String detail,required TextEditingController controller}) {
 
     return Container(
       padding: const EdgeInsets.all(12),
