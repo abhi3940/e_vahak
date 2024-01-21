@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 
 class PrimaryButton extends StatelessWidget {
   final String title;
-  final Function(BuildContext) onTapBtn; // Modify this line
+  final VoidCallback? onTapBtn; // Modify this line
 
-  const PrimaryButton({Key? key, required this.title, required this.onTapBtn})
+  PrimaryButton({Key? key, required this.title, this.onTapBtn})
       : super(key: key); // Modify this line
 
   @override
@@ -21,7 +21,7 @@ class PrimaryButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(90),
             ),
           ),
-          onPressed: () => onTapBtn(context), // Modify this line
+          onPressed:  onTapBtn, // Modify this line
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(title, style: Theme.of(context).textTheme.bodyMedium),

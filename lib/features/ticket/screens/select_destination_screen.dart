@@ -2,18 +2,20 @@ import 'package:e_vahak/core/common/widgets/primary_button.dart';
 import 'package:e_vahak/models/stops.dart';
 import 'package:e_vahak/theme/pallete.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
+import 'package:e_vahak/features/ticket/repository/ticket_repository.dart';
 
-class SelectDestinationScreen extends StatefulWidget {
+
+
+class SelectDestinationScreen extends ConsumerStatefulWidget {
   final int selectedSource;
   const SelectDestinationScreen({super.key, required this.selectedSource});
-
   @override
-  State<SelectDestinationScreen> createState() =>
-      _SelectDestinationScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _SelectDestinationScreenState();
 }
 
-class _SelectDestinationScreenState extends State<SelectDestinationScreen> {
+class _SelectDestinationScreenState extends ConsumerState<SelectDestinationScreen> {
   int selectedRadio = 0;
   void naviateToAddTicketDetails(BuildContext context) {
     Routemaster.of(context).push('/addticketDetails');
@@ -21,6 +23,8 @@ class _SelectDestinationScreenState extends State<SelectDestinationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    selectedRadio = widget.selectedSource+1;
+    final ticket = ref.watch(ticketProvider);
     return Scaffold(
         appBar: AppBar(
           title: Text(
@@ -29,7 +33,7 @@ class _SelectDestinationScreenState extends State<SelectDestinationScreen> {
           ),
           leading: IconButton(
             icon: const Icon(Icons.close, color: Pallete.grey3),
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => Routemaster.of(context).pop(),
           ),
         ),
         body: Padding(
@@ -103,7 +107,13 @@ class _SelectDestinationScreenState extends State<SelectDestinationScreen> {
                   child: Text(
                       'Selected Source:${stops[widget.selectedSource]['name']}',
                       style: Theme.of(context).textTheme.bodySmall)),
-              PrimaryButton(title: 'Next', onTapBtn: naviateToAddTicketDetails),
+              PrimaryButton(
+                  title: 'Next',
+                  onTapBtn: () {
+                    ref.read(ticketProvider.notifier).update((state) => ticket.copyWith(
+                        destination: stops[selectedRadio]['name'] as String));
+                    naviateToAddTicketDetails(context);
+                  }),
               const SizedBox(
                 height: 20,
               ),

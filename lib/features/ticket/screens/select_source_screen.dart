@@ -2,16 +2,19 @@ import 'package:e_vahak/core/common/widgets/primary_button.dart';
 import 'package:e_vahak/models/stops.dart';
 import 'package:e_vahak/theme/pallete.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
+import 'package:e_vahak/features/ticket/repository/ticket_repository.dart';
 
-class SelectSourceScreen extends StatefulWidget {
+class SelectSourceScreen extends ConsumerStatefulWidget {
   const SelectSourceScreen({super.key});
 
   @override
-  State<SelectSourceScreen> createState() => _SelectSourceScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _SelectSourceScreenState();
 }
 
-class _SelectSourceScreenState extends State<SelectSourceScreen> {
+class _SelectSourceScreenState extends ConsumerState<SelectSourceScreen> {
   int selectedRadio = 0;
   void naviateToSelectDestination(BuildContext context) {
     Routemaster.of(context).push('/selectDestination/$selectedRadio');
@@ -19,6 +22,7 @@ class _SelectSourceScreenState extends State<SelectSourceScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final ticket = ref.watch(ticketProvider);
 
     return Scaffold(
         appBar: AppBar(
@@ -28,7 +32,7 @@ class _SelectSourceScreenState extends State<SelectSourceScreen> {
           ),
           leading: IconButton(
             icon: const Icon(Icons.close, color: Pallete.grey3),
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => Routemaster.of(context).pop(),
           ),
         ),
         body: Padding(
@@ -61,7 +65,8 @@ class _SelectSourceScreenState extends State<SelectSourceScreen> {
                       itemCount: stops.length,
                       itemBuilder: (context, index) {
                         return Container(
-                          padding: const EdgeInsets.all(16.0).copyWith(top: 0, bottom: 0),
+                          padding: const EdgeInsets.all(16.0)
+                              .copyWith(top: 0, bottom: 0),
                           child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -93,23 +98,18 @@ class _SelectSourceScreenState extends State<SelectSourceScreen> {
                               ]),
                         );
                       })),
-              
               PrimaryButton(
-                  title: 'Next', onTapBtn: naviateToSelectDestination),
+                  title: 'Next',
+                  onTapBtn: () {
+                    ref.read(ticketProvider.notifier).update((state) => ticket.copyWith(
+                        source: stops[selectedRadio]['name'] as String));
+                    naviateToSelectDestination(context);
+                  }),
               const SizedBox(
                 height: 20,
               ),
             ],
           ),
         ));
-  }
-}
-
-class StopsRown extends StatelessWidget {
-  const StopsRown({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
   }
 }

@@ -2,6 +2,7 @@ import 'package:e_vahak/core/common/widgets/password_fields.dart';
 import 'package:e_vahak/core/common/widgets/primary_button.dart';
 import 'package:e_vahak/core/common/widgets/text_feilds.dart';
 import 'package:e_vahak/features/auth/repository/auth_repository.dart';
+import 'package:e_vahak/models/user_model.dart';
 import 'package:e_vahak/theme/pallete.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -11,6 +12,14 @@ import 'package:routemaster/routemaster.dart';
 
 void naviateToSignUp(BuildContext context) {
   Routemaster.of(context).push('/signup');
+}
+
+void naviateToHome(BuildContext context) {
+  Routemaster.of(context).push('/home');
+}
+
+void naviateToDone(BuildContext context) {
+  Routemaster.of(context).push('/done');
 }
 
 class LoginScreen extends StatefulWidget {
@@ -27,24 +36,27 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController mobileNumberController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  Future<void> signInWithEmailPassword() async{
-    try{
+  Future<bool> signInWithEmailPassword() async {
+    try {
       await AuthRepository().signInWithEmailAndPassword(
         email: mobileNumberController.text,
         password: passwordController.text,
       );
-    }on FirebaseAuthException catch(e){
-      if(e.code == 'user-not-found'){
+      return true; // Sign-in successful
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
         setState(() {
           errorText = 'No user found for that email.';
         });
-      }else if(e.code == 'wrong-password'){
+      } else if (e.code == 'wrong-password') {
         setState(() {
           errorText = 'Wrong password provided for that user.';
         });
       }
+      return false; // Sign-in failed
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,20 +86,32 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(
                 height: 40,
               ),
-               CustomTextFeilds(hint: 'Mobile Number', controller: mobileNumberController,),
-               PasswordField(hint: 'Password', controller: passwordController,),
+              CustomTextFeilds(
+                hint: 'Mobile Number',
+                controller: mobileNumberController,
+              ),
+              PasswordField(
+                hint: 'Password',
+                controller: passwordController,
+              ),
               const Spacer(),
               TextButton(
                   onPressed: () {},
                   child: Text('Forgot Password?',
                       style: Theme.of(context).textTheme.bodySmall)),
-              PrimaryButton(title: 'Log In', onTapBtn: naviateToSignUp),
+              PrimaryButton(
+                  title: 'Log In',
+                  onTapBtn: () async {
+                    final signInSuccessful = await signInWithEmailPassword();
+                    if (signInSuccessful) {
+                      naviateToHome(context);
+                    }
+                  }),
               const SizedBox(
                 height: 20,
               ),
             ],
           ),
         ));
-    ;
   }
 }

@@ -4,6 +4,8 @@ import 'dart:convert';
 class TicketModel {
   final String source;
   final String destination;
+  final int fullSeats ;
+  final int halfSeats ;
   final String date;
   final String time;
   final String ticketId;
@@ -19,6 +21,8 @@ class TicketModel {
     required this.busId,
     required this.uid,
     required this.price,
+    required this.fullSeats,
+    required this.halfSeats,
   });
 
   TicketModel copyWith({
@@ -30,6 +34,8 @@ class TicketModel {
     String? busId,
     String? uid,
     int? price,
+    int? fullSeats,
+    int? halfSeats,
   }) {
     return TicketModel(
       source: source ?? this.source,
@@ -40,6 +46,8 @@ class TicketModel {
       busId: busId ?? this.busId,
       uid: uid ?? this.uid,
       price: price ?? this.price,
+      fullSeats: fullSeats ?? this.fullSeats,
+      halfSeats: halfSeats ?? this.halfSeats,
     );
   }
 
@@ -53,6 +61,8 @@ class TicketModel {
       'busId': busId,
       'uid': uid,
       'price': price,
+      'fullSeats': fullSeats,
+      'halfSeats': halfSeats,
     };
   }
 
@@ -66,6 +76,8 @@ class TicketModel {
       busId: map['busId'] as String,
       uid: map['uid'] as String,
       price: map['price'] as int,
+      fullSeats: map['fullSeats'] as int,
+      halfSeats: map['halfSeats'] as int,
     );
   }
 
@@ -91,6 +103,7 @@ class TicketModel {
       other.busId == busId &&
       other.uid == uid &&
       other.price == price;
+      
   }
 
   @override
@@ -102,6 +115,8 @@ class TicketModel {
       ticketId.hashCode ^
       busId.hashCode ^
       uid.hashCode ^
-      price.hashCode;
+      price.hashCode ^
+      fullSeats.hashCode ^
+      halfSeats.hashCode;
   }
 }
