@@ -40,6 +40,9 @@ dependencies:
   flutter_riverpod: ^2.4.9
   routemaster: ^1.0.1
   firebase_auth: ^4.16.0
+  flutter_barcode_scanner: ^2.0.0
+  qr_flutter: ^4.1.0
+  path_provider: ^2.1.1
 
 dev_dependencies:
   flutter_test:
