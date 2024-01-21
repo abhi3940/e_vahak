@@ -19,6 +19,9 @@ class _SelectSourceScreenState extends ConsumerState<SelectSourceScreen> {
   void naviateToSelectDestination(BuildContext context) {
     Routemaster.of(context).push('/selectDestination/$selectedRadio');
   }
+  void navigateToHome(BuildContext context) {
+    Routemaster.of(context).push('/home');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +35,7 @@ class _SelectSourceScreenState extends ConsumerState<SelectSourceScreen> {
           ),
           leading: IconButton(
             icon: const Icon(Icons.close, color: Pallete.grey3),
-            onPressed: () => Routemaster.of(context).pop(),
+            onPressed: () => navigateToHome(context),
           ),
         ),
         body: Padding(
@@ -46,12 +49,13 @@ class _SelectSourceScreenState extends ConsumerState<SelectSourceScreen> {
                         color: Pallete.grey3,
                       ),
                   decoration: const InputDecoration(
-                    labelText: "Search",
                     hintText: "Search",
                     prefixIcon: Icon(Icons.search),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(90)),
                     ),
+                    contentPadding: EdgeInsets.symmetric(
+                        vertical: 8), // Adjust the vertical padding here
                     filled: true,
                     fillColor: Pallete.grey,
                   ),
@@ -65,44 +69,43 @@ class _SelectSourceScreenState extends ConsumerState<SelectSourceScreen> {
                       itemCount: stops.length,
                       itemBuilder: (context, index) {
                         return Container(
-                          padding: const EdgeInsets.all(16.0)
-                              .copyWith(top: 0, bottom: 0),
                           child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Row(
-                                  children: [
-                                    Radio(
+                                SizedBox(
+                                  height: 33,
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Radio(
                                         value: index,
                                         groupValue: selectedRadio,
                                         onChanged: (value) {
                                           setState(() {
                                             selectedRadio = value as int;
                                           });
-                                        }),
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text(
-                                      stops[index]['name'] as String,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleSmall,
-                                    ),
-                                  ],
+                                        },
+                                      ),
+                                      Text(
+                                        stops[index]['name'] as String,
+                                        style: Theme.of(context).textTheme.titleSmall,
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                const Divider(
-                                  color: Pallete.grey3,
-                                  thickness: 1,
-                                ),
+                                const Padding(
+                                  padding: EdgeInsets.only(left:8.0,right: 8.0),
+                                  child: Divider(color: Pallete.grey3,),
+                                )
                               ]),
                         );
                       })),
               PrimaryButton(
                   title: 'Next',
                   onTapBtn: () {
-                    ref.read(ticketProvider.notifier).update((state) => ticket.copyWith(
-                        source: stops[selectedRadio]['name'] as String));
+                    ref.read(ticketProvider.notifier).update((state) =>
+                        ticket.copyWith(
+                            source: stops[selectedRadio]['name'] as String));
                     naviateToSelectDestination(context);
                   }),
               const SizedBox(

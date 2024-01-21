@@ -6,24 +6,26 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
 import 'package:e_vahak/features/ticket/repository/ticket_repository.dart';
 
-
-
 class SelectDestinationScreen extends ConsumerStatefulWidget {
   final int selectedSource;
   const SelectDestinationScreen({super.key, required this.selectedSource});
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _SelectDestinationScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _SelectDestinationScreenState();
 }
 
-class _SelectDestinationScreenState extends ConsumerState<SelectDestinationScreen> {
-  int selectedRadio = 0;
+class _SelectDestinationScreenState
+    extends ConsumerState<SelectDestinationScreen> {
+  int selectedRadio = stops.length - 1;
   void naviateToAddTicketDetails(BuildContext context) {
     Routemaster.of(context).push('/addticketDetails');
+  }
+  void navigateToHome(BuildContext context) {
+    Routemaster.of(context).push('/home');
   }
 
   @override
   Widget build(BuildContext context) {
-    selectedRadio = widget.selectedSource+1;
     final ticket = ref.watch(ticketProvider);
     return Scaffold(
         appBar: AppBar(
@@ -33,7 +35,7 @@ class _SelectDestinationScreenState extends ConsumerState<SelectDestinationScree
           ),
           leading: IconButton(
             icon: const Icon(Icons.close, color: Pallete.grey3),
-            onPressed: () => Routemaster.of(context).pop(),
+            onPressed: () => navigateToHome(context),
           ),
         ),
         body: Padding(
@@ -47,12 +49,12 @@ class _SelectDestinationScreenState extends ConsumerState<SelectDestinationScree
                         color: Pallete.grey3,
                       ),
                   decoration: const InputDecoration(
-                    labelText: "Search",
                     hintText: "Search",
                     prefixIcon: Icon(Icons.search),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(90)),
                     ),
+                    contentPadding: EdgeInsets.symmetric(vertical: 8),
                     filled: true,
                     fillColor: Pallete.grey,
                   ),
@@ -68,50 +70,56 @@ class _SelectDestinationScreenState extends ConsumerState<SelectDestinationScree
                         return widget.selectedSource >= index
                             ? Container()
                             : Container(
-                                padding: const EdgeInsets.all(16.0)
-                                    .copyWith(top: 0, bottom: 0),
                                 child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Row(
-                                        children: [
-                                          Radio(
+                                      SizedBox(
+                                        height: 33,
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Radio(
                                               value: index,
                                               groupValue: selectedRadio,
                                               onChanged: (value) {
                                                 setState(() {
                                                   selectedRadio = value as int;
                                                 });
-                                              }),
-                                          const SizedBox(
-                                            width: 10,
-                                          ),
-                                          Text(
-                                            stops[index]['name'] as String,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .titleSmall,
-                                          ),
-                                        ],
+                                              },
+                                            ),
+                                            Text(
+                                              stops[index]['name'] as String,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleSmall,
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                      const Divider(
-                                        color: Pallete.grey3,
-                                        thickness: 1,
-                                      ),
+                                      const Padding(
+                                        padding: EdgeInsets.only(
+                                            left: 8.0, right: 8.0),
+                                        child: Divider(
+                                          color: Pallete.grey3,
+                                        ),
+                                      )
                                     ]),
                               );
                       })),
               TextButton(
                   onPressed: () {},
                   child: Text(
-                      'Selected Source:${stops[widget.selectedSource]['name']}',
+                      'Selected source: ${stops[widget.selectedSource]['name']}',
                       style: Theme.of(context).textTheme.bodySmall)),
               PrimaryButton(
                   title: 'Next',
                   onTapBtn: () {
-                    ref.read(ticketProvider.notifier).update((state) => ticket.copyWith(
-                        destination: stops[selectedRadio]['name'] as String));
+                    ref.read(ticketProvider.notifier).update((state) =>
+                        ticket.copyWith(
+                            destination:
+                                stops[selectedRadio]['name'] as String));
                     naviateToAddTicketDetails(context);
                   }),
               const SizedBox(

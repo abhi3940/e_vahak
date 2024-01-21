@@ -1,11 +1,27 @@
+import 'package:e_vahak/models/tickets.dart';
 import 'package:e_vahak/theme/pallete.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:e_vahak/features/ticket/repository/ticket_repository.dart';
+import 'package:routemaster/routemaster.dart';
 
-class Confirm extends StatelessWidget {
+class Confirm extends ConsumerWidget {
   const Confirm({Key? key}) : super(key: key);
+  int calculatePrice(int full,int half){
+    return (full*20)+(half*10);
+  }
+  void navigateToHome(BuildContext context) {
+    Routemaster.of(context).push('/home');
+  }
+  void updateTicketPrice(int price,WidgetRef ref, TicketModel ticket){
+    ref.read(ticketProvider.notifier).update((state) => ticket.copyWith(price: price));
+  }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ticket = ref.watch(ticketProvider);
+    int price = calculatePrice(ticket.fullSeats, ticket.halfSeats);
+    updateTicketPrice(price, ref, ticket);
     return Scaffold(
       backgroundColor: Pallete.primaryColor,
       body: Center(
@@ -26,20 +42,28 @@ class Confirm extends StatelessWidget {
                 children: [
                   Center(
                     child: Text(
-                      "Rs.40",
+                      "Rs. $price",
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
+                    
                   ),
-                  SizedBox(height: 16),
-                  Text("From: Stop A", style: Theme.of(context).textTheme.titleSmall),
-                  SizedBox(height: 8),
-                  Text("To: Stop B", style: Theme.of(context).textTheme.titleSmall),
-                  SizedBox(height: 8),
-                  Text("No. of Seats: 1", style:Theme.of(context).textTheme.titleSmall ),
-                  SizedBox(height: 32),
+                  const SizedBox(height: 30),
+                  Text("From: ${ticket.source}",
+                      style: Theme.of(context).textTheme.titleSmall),
+                  const SizedBox(height: 8),
+                  Text("To: ${ticket.destination}",
+                      style: Theme.of(context).textTheme.titleSmall),
+                  const SizedBox(height: 8),
+                  Text("No. of Full Seats: ${ticket.fullSeats} ",
+                      style: Theme.of(context).textTheme.titleSmall),
+                  const SizedBox(height: 8),
+                  Text("No. of Half Seats: ${ticket.halfSeats} ",
+                      style: Theme.of(context).textTheme.titleSmall),
+                  const SizedBox(height: 32),
                   ElevatedButton(
                     onPressed: () {
                       // Add your payment logic here
+                      navigateToHome(context);
                     },
                     style: ElevatedButton.styleFrom(
                       primary: Color.fromRGBO(15, 163, 210, 1),
@@ -47,20 +71,20 @@ class Confirm extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
-                      minimumSize: Size(double.infinity, 50),
+                      minimumSize: const Size(double.infinity, 50),
                     ),
-                    child: Text("Pay"),
+                    child: const Text("Pay"),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Center(
                     child: TextButton(
                       onPressed: () {
-                        // Add your cancel logic here
+                        navigateToHome(context);
                       },
                       style: TextButton.styleFrom(
                         primary: Color.fromRGBO(15, 163, 210, 1),
                       ),
-                      child: Text("Cancelss"),
+                      child: const Text("Cancel"),
                     ),
                   ),
                 ],

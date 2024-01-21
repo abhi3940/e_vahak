@@ -1,25 +1,25 @@
 import 'package:e_vahak/core/common/widgets/primary_button.dart';
+import 'package:e_vahak/models/stops.dart';
 import 'package:e_vahak/theme/pallete.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
 import 'package:e_vahak/features/ticket/repository/ticket_repository.dart';
 
-
-
-
 class PassengerDetails extends ConsumerStatefulWidget {
   const PassengerDetails({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _PassengerDetailsState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _PassengerDetailsState();
 }
-
-
 
 class _PassengerDetailsState extends ConsumerState<PassengerDetails> {
   void naviateToConformation(BuildContext context) {
-    Routemaster.of(context).push('/conformation');
+    Routemaster.of(context).push('/confirmation');
+  }
+  void navigateToHome(BuildContext context) {
+    Routemaster.of(context).push('/home');
   }
 
   final List<String> detailList = ["Full Tickets", "Half Tickets"];
@@ -73,10 +73,9 @@ class _PassengerDetailsState extends ConsumerState<PassengerDetails> {
         elevation: 0,
         backgroundColor: Pallete.backgroundColor,
         leading: IconButton(
-
-            icon: const Icon(Icons.close, color: Pallete.grey3),
-            onPressed: () => Routemaster.of(context).pop(),
-          ),
+          icon: const Icon(Icons.close, color: Pallete.grey3),
+          onPressed: () => navigateToHome(context),
+        ),
       ),
       body: Column(
         children: [
@@ -92,15 +91,24 @@ class _PassengerDetailsState extends ConsumerState<PassengerDetails> {
           ),
           PrimaryButton(
             title: "Done",
+            onTapBtn: () {
+              ref.read(ticketProvider.notifier).update((state) => ticket.copyWith(
+                        fullSeats: int.parse(_fullTicketsController.text),
+                  halfSeats: int.parse(_halfTicketsController.text)));
+              naviateToConformation(context);
 
-            onTapBtn: ()=> naviateToConformation(context),
+            },
           ),
+          const SizedBox(
+                height: 20,
+              ),
         ],
       ),
     );
   }
-   _buildDetails({required String detail,required TextEditingController controller}) {
 
+  _buildDetails(
+      {required String detail, required TextEditingController controller}) {
     return Container(
       padding: const EdgeInsets.all(12),
       child: Row(
@@ -108,6 +116,7 @@ class _PassengerDetailsState extends ConsumerState<PassengerDetails> {
         children: [
           Text(
             detail,
+            style: Theme.of(context).textTheme.titleSmall,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
