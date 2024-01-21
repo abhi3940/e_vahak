@@ -1,21 +1,34 @@
 import 'package:e_vahak/core/common/widgets/primary_button.dart';
+import 'package:e_vahak/features/payment/screens/gateway_screen.dart';
 import 'package:e_vahak/theme/pallete.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:routemaster/routemaster.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
-  void naviateToSelectSource(BuildContext context) {
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  
+  void navigateToSelectSource(BuildContext context) {
     Routemaster.of(context).push('/selectSource');
   }
+
+  // void navigateToQRScreen(BuildContext context) {
+  //   Routemaster.of(context).push('/scanQR');
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            'EVahak',
+            'E-Vahak',
             style: Theme.of(context).textTheme.titleLarge,
           ),
           leading: IconButton(
@@ -68,14 +81,54 @@ class HomeScreen extends StatelessWidget {
               ),
               const Spacer(),
               PrimaryButton(
+
                   title: 'Book Pass', onTapBtn: (){}),
               PrimaryButton(
                   title: 'Book Tickets', onTapBtn: ()=> naviateToSelectSource(context)),
+
               const SizedBox(
                 height: 20,
               ),
             ],
           ),
         ));
+  }  
+
+
+  // Qr Scanning Code
+  
+  String _qrScanRes = '';
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  Future<void> scanQR() async {
+    String qrScanRes;
+    try {
+      qrScanRes = await FlutterBarcodeScanner.scanBarcode(
+        '#ff6666',
+        'Cancel',
+        true,
+        ScanMode.QR,
+      );
+      debugPrint(qrScanRes);
+    } on PlatformException {
+      qrScanRes = "Failed to get platform version.";
+    }
+    if (!mounted) return;
+
+    setState(() {
+      _qrScanRes = qrScanRes;
+    });
+
+    // Navigate to a new page with the result
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PaymentGateScreen(result: _qrScanRes),
+      ),
+    );
   }
 }

@@ -15,20 +15,45 @@ class PassengerDetails extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _PassengerDetailsState();
 }
 
+
+
 class _PassengerDetailsState extends ConsumerState<PassengerDetails> {
   void naviateToConformation(BuildContext context) {
     Routemaster.of(context).push('/conformation');
   }
 
-  final color = const Color.fromRGBO(189, 189, 189, 1);
   final List<String> detailList = ["Full Tickets", "Half Tickets"];
   final divide = const Padding(
     padding: EdgeInsets.symmetric(horizontal: 10.0),
     child: Divider(
-      color: Color.fromRGBO(189, 189, 189, 1),
+      color: Pallete.grey3,
       thickness: 1,
     ),
   );
+
+  final TextEditingController _fullTicketsController =
+      TextEditingController(text: '00');
+  final TextEditingController _halfTicketsController =
+      TextEditingController(text: '00');
+  bool isTextFieldEnabled = false;
+
+  // void _incrementValue(TextEditingController controller) {
+  //   int value = int.parse(controller.text);
+  //   if (value < 10) {
+  //     setState(() {
+  //       controller.text = (value + 1).toString();
+  //     });
+  //   }
+  // }
+
+  // void _decrementValue(TextEditingController controller) {
+  //   int value = int.parse(controller.text);
+  //   if (value > 0) {
+  //     setState(() {
+  //       controller.text = (value - 1).toString();
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +71,9 @@ class _PassengerDetailsState extends ConsumerState<PassengerDetails> {
           ),
         ),
         elevation: 0,
-        backgroundColor: const Color.fromRGBO(246, 246, 246, 1),
+        backgroundColor: Pallete.backgroundColor,
         leading: IconButton(
+
             icon: const Icon(Icons.close, color: Pallete.grey3),
             onPressed: () => Routemaster.of(context).pop(),
           ),
@@ -55,15 +81,18 @@ class _PassengerDetailsState extends ConsumerState<PassengerDetails> {
       body: Column(
         children: [
           const Spacer(),
-          _buildDetails(detail: detailList[0]),
+          _buildDetails(
+              detail: detailList[0], controller: _fullTicketsController),
           divide,
-          _buildDetails(detail: detailList[1]),
+          _buildDetails(
+              detail: detailList[1], controller: _halfTicketsController),
           divide,
           const Spacer(
             flex: 4,
           ),
           PrimaryButton(
             title: "Done",
+
             onTapBtn: ()=> naviateToConformation(context),
           ),
         ],
@@ -71,6 +100,7 @@ class _PassengerDetailsState extends ConsumerState<PassengerDetails> {
     );
   }
    _buildDetails({required String detail}) {
+
     return Container(
       padding: const EdgeInsets.all(12),
       child: Row(
@@ -83,38 +113,53 @@ class _PassengerDetailsState extends ConsumerState<PassengerDetails> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  int value = int.parse(controller.text);
+                  if (value > 0) {
+                    setState(() {
+                      controller.text = (value - 1).toString();
+                    });
+                  }
+                },
                 icon: const Icon(Icons.remove_circle),
-                color: const Color.fromRGBO(15, 163, 210, 1),
+                color: Pallete.primaryColor,
                 iconSize: 32,
               ),
-              const SizedBox(
+              SizedBox(
                 width: 100,
                 height: 60,
                 child: TextField(
+                  controller: controller,
                   keyboardType: TextInputType.number,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 18,
                   ),
-                  // maxLength: 1,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(
                         borderSide: BorderSide(
                           color: Colors.black,
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(50))),
                   ),
+                  enabled: isTextFieldEnabled,
                 ),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  int value = int.parse(controller.text);
+                  if (value < 10) {
+                    setState(() {
+                      controller.text = (value + 1).toString();
+                    });
+                  }
+                },
                 icon: const Icon(Icons.add_circle),
-                color: const Color.fromRGBO(15, 163, 210, 1),
+                color: Pallete.primaryColor,
                 iconSize: 32,
               ),
             ],
-          )
+          ),
         ],
       ),
     );

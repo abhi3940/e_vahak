@@ -3,7 +3,7 @@ import 'package:e_vahak/core/common/widgets/loader.dart';
 import 'package:e_vahak/features/auth/screens/login_screen.dart';
 import 'package:e_vahak/features/auth/screens/signup_screen.dart';
 import 'package:e_vahak/features/home/screens/home_screen.dart';
-import 'package:e_vahak/features/payment/screens/conformation_screen.dart';
+import 'package:e_vahak/features/payment/screens/confirmation_screen.dart';
 import 'package:e_vahak/features/ticket/screens/add_details_screen.dart';
 import 'package:e_vahak/features/ticket/screens/select_destination_screen.dart';
 import 'package:e_vahak/features/ticket/screens/select_source_screen.dart';
@@ -27,7 +27,7 @@ final loggedInRoutes = RouteMap(
     '/selectSource': (_) => const MaterialPage<void>(child: SelectSourceScreen()),
     '/selectDestination/:index': (route) => MaterialPage(child: SelectDestinationScreen(selectedSource: int.parse(route.pathParameters['index']!))),
     '/addticketDetails': (_) => const MaterialPage<void>(child: PassengerDetails()),
-    '/conformation': (_) => const MaterialPage<void>(child: Confirm()),
+    '/confirmation': (_) => const MaterialPage<void>(child: Confirm()),
 
 
   },
