@@ -1,8 +1,8 @@
 import 'package:e_vahak/core/common/widgets/primary_button.dart';
-import 'package:e_vahak/features/payment/screens/gateway_screen.dart';
 import 'package:e_vahak/theme/pallete.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 //import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:routemaster/routemaster.dart';
 
@@ -91,10 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const Spacer(),
               PrimaryButton(
-                  title: 'Book Pass',
-                  onTapBtn: () {
-                    //scanQR();
-                  }),
+                  title: 'Book Pass', onTapBtn: (){scanQR();}),
               PrimaryButton(
                   title: 'Book Tickets',
                   onTapBtn: () => navigateToSelectSource(context)),
@@ -115,31 +112,26 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
   }
 
-  // Future<void> scanQR() async {
-  //   String qrScanRes;
-  //   try {
-  //     qrScanRes = await FlutterBarcodeScanner.scanBarcode(
-  //       '#ff6666',
-  //       'Cancel',
-  //       true,
-  //       ScanMode.QR,
-  //     );
-  //     debugPrint(qrScanRes);
-  //   } on PlatformException {
-  //     qrScanRes = "Failed to get platform version.";
-  //   }
-  //   if (!mounted) return;
+  Future<void> scanQR() async {
+    String qrScanRes;
+    try {
+      qrScanRes = await FlutterBarcodeScanner.scanBarcode(
+        '#ff6666',
+        'Cancel',
+        true,
+        ScanMode.QR,
+      );
+      debugPrint(qrScanRes);
+    } on PlatformException {
+      qrScanRes = "Failed to get platform version.";
+    }
+    if (!mounted) return;
 
-  //   setState(() {
-  //     _qrScanRes = qrScanRes;
-  //   });
+    setState(() {
+      _qrScanRes = qrScanRes;
+    });
 
-  //   // Navigate to a new page with the result
-  //   Navigator.push(
-  //     context,
-  //     MaterialPageRoute(
-  //       builder: (context) => PaymentGateScreen(result: _qrScanRes),
-  //     ),
-  //   );
-  // }
+    // Navigate to a new page with the result
+    navigateToSelectSource(context);
+  }
 }
