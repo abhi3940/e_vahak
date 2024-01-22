@@ -9,6 +9,7 @@ import 'package:routemaster/routemaster.dart';
 
 
 
+
 class Confirmv extends ConsumerStatefulWidget {
   const Confirmv({super.key});
 
@@ -19,6 +20,7 @@ class Confirmv extends ConsumerStatefulWidget {
 class _ConfirmvState extends ConsumerState<Confirmv> {
   int calculatePrice(int full, int half) {
     return (full * 20) + (half * 10);
+
   }
   void navigateToHome(BuildContext context) {
     Routemaster.of(context).push('/home');
