@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+
 import 'package:e_vahak/theme/pallete.dart';
 
 class Success extends StatelessWidget {
   const Success({Key? key}) : super(key: key);
 
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       backgroundColor:Pallete.backgroundColor,
       body: Column(
         children: [
@@ -50,6 +56,7 @@ class Success extends StatelessWidget {
         ],
       ),
      
+
     );
   }
 }
