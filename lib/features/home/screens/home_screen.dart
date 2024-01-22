@@ -1,5 +1,4 @@
 import 'package:e_vahak/core/common/widgets/primary_button.dart';
-import 'package:e_vahak/features/payment/screens/gateway_screen.dart';
 import 'package:e_vahak/theme/pallete.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -81,8 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const Spacer(),
               PrimaryButton(
-
-                  title: 'Book Pass', onTapBtn: (){}),
+                  title: 'Book Pass', onTapBtn: (){scanQR;}),
               PrimaryButton(
                   title: 'Book Tickets', onTapBtn: ()=> navigateToSelectSource(context)),
 
@@ -124,11 +122,6 @@ class _HomeScreenState extends State<HomeScreen> {
     });
 
     // Navigate to a new page with the result
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => PaymentGateScreen(result: _qrScanRes),
-      ),
-    );
+    navigateToSelectSource(context);
   }
 }
