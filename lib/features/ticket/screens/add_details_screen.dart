@@ -1,5 +1,6 @@
 import 'package:e_vahak/core/common/widgets/primary_button.dart';
 import 'package:e_vahak/models/stops.dart';
+import 'package:e_vahak/models/tickets.dart';
 import 'package:e_vahak/theme/pallete.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,8 +19,15 @@ class _PassengerDetailsState extends ConsumerState<PassengerDetails> {
   void naviateToConformation(BuildContext context) {
     Routemaster.of(context).push('/confirmation');
   }
+
   void navigateToHome(BuildContext context) {
     Routemaster.of(context).push('/home');
+  }
+
+  void updateTicket(TicketModel ticket, WidgetRef ref, int full, int half) {
+    ref.read(ticketProvider.notifier).update(
+          (state) => ticket.copyWith(fullSeats: full, halfSeats: half),
+        );
   }
 
   final List<String> detailList = ["Full Tickets", "Half Tickets"];
@@ -92,16 +100,19 @@ class _PassengerDetailsState extends ConsumerState<PassengerDetails> {
           PrimaryButton(
             title: "Done",
             onTapBtn: () {
-              ref.read(ticketProvider.notifier).update((state) => ticket.copyWith(
-                        fullSeats: int.parse(_fullTicketsController.text),
-                  halfSeats: int.parse(_halfTicketsController.text)));
+              
+                
+                   ref.read(ticketProvider.notifier).update(
+          (state) => ticket.copyWith(fullSeats: int.parse(_fullTicketsController.text), halfSeats: int.parse(_halfTicketsController.text)),
+        );
+                
+              
               naviateToConformation(context);
-
             },
           ),
           const SizedBox(
-                height: 20,
-              ),
+            height: 20,
+          ),
         ],
       ),
     );

@@ -3,7 +3,7 @@ import 'package:e_vahak/features/payment/screens/gateway_screen.dart';
 import 'package:e_vahak/theme/pallete.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+//import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:routemaster/routemaster.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -14,7 +14,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  
   void navigateToSelectSource(BuildContext context) {
     Routemaster.of(context).push('/selectSource');
   }
@@ -60,43 +59,55 @@ class _HomeScreenState extends State<HomeScreen> {
                     borderRadius: BorderRadius.circular(10),
                     color: Pallete.grey2,
                   ),
-                  child: 
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Stop A to Stop B',style: Theme.of(context).textTheme.titleSmall,),
-                            const SizedBox(height: 10,),
-                            Text('No. of Seats: 2',style: Theme.of(context).textTheme.titleSmall,),
-                          ],
-                        ),
-                        
-                        Text('Rs. 100',style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.black),),
-                      ],
-                    ),
-                    
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Stop A to Stop B',
+                            style: Theme.of(context).textTheme.titleSmall,
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            'No. of Seats: 2',
+                            style: Theme.of(context).textTheme.titleSmall,
+                          ),
+                        ],
+                      ),
+                      Text(
+                        'Rs. 100',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium
+                            ?.copyWith(color: Colors.black),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               const Spacer(),
               PrimaryButton(
-
-                  title: 'Book Pass', onTapBtn: (){}),
+                  title: 'Book Pass',
+                  onTapBtn: () {
+                    //scanQR();
+                  }),
               PrimaryButton(
-                  title: 'Book Tickets', onTapBtn: ()=> navigateToSelectSource(context)),
-
+                  title: 'Book Tickets',
+                  onTapBtn: () => navigateToSelectSource(context)),
               const SizedBox(
                 height: 20,
               ),
             ],
           ),
         ));
-  }  
-
+  }
 
   // Qr Scanning Code
-  
+
   String _qrScanRes = '';
 
   @override
@@ -104,31 +115,31 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
   }
 
-  Future<void> scanQR() async {
-    String qrScanRes;
-    try {
-      qrScanRes = await FlutterBarcodeScanner.scanBarcode(
-        '#ff6666',
-        'Cancel',
-        true,
-        ScanMode.QR,
-      );
-      debugPrint(qrScanRes);
-    } on PlatformException {
-      qrScanRes = "Failed to get platform version.";
-    }
-    if (!mounted) return;
+  // Future<void> scanQR() async {
+  //   String qrScanRes;
+  //   try {
+  //     qrScanRes = await FlutterBarcodeScanner.scanBarcode(
+  //       '#ff6666',
+  //       'Cancel',
+  //       true,
+  //       ScanMode.QR,
+  //     );
+  //     debugPrint(qrScanRes);
+  //   } on PlatformException {
+  //     qrScanRes = "Failed to get platform version.";
+  //   }
+  //   if (!mounted) return;
 
-    setState(() {
-      _qrScanRes = qrScanRes;
-    });
+  //   setState(() {
+  //     _qrScanRes = qrScanRes;
+  //   });
 
-    // Navigate to a new page with the result
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => PaymentGateScreen(result: _qrScanRes),
-      ),
-    );
-  }
+  //   // Navigate to a new page with the result
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(
+  //       builder: (context) => PaymentGateScreen(result: _qrScanRes),
+  //     ),
+  //   );
+  // }
 }

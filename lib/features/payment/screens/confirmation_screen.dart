@@ -7,21 +7,27 @@ import 'package:routemaster/routemaster.dart';
 
 class Confirm extends ConsumerWidget {
   const Confirm({Key? key}) : super(key: key);
-  int calculatePrice(int full,int half){
-    return (full*20)+(half*10);
+  int calculatePrice(int full, int half) {
+    return (full * 20) + (half * 10);
   }
+
   void navigateToHome(BuildContext context) {
     Routemaster.of(context).push('/home');
   }
-  void updateTicketPrice(int price,WidgetRef ref, TicketModel ticket){
-    ref.read(ticketProvider.notifier).update((state) => ticket.copyWith(price: price));
+
+  void updateTicketPrice(int price, WidgetRef ref, TicketModel ticket) {
+    ref
+        .read(ticketProvider.notifier)
+        .update((state) => ticket.copyWith(price: price));
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ticket = ref.watch(ticketProvider);
     int price = calculatePrice(ticket.fullSeats, ticket.halfSeats);
-    updateTicketPrice(price, ref, ticket);
+    Future(() {
+      updateTicketPrice(price, ref, ticket);
+    });
     return Scaffold(
       backgroundColor: Pallete.primaryColor,
       body: Center(
@@ -45,7 +51,6 @@ class Confirm extends ConsumerWidget {
                       "Rs. $price",
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
-                    
                   ),
                   const SizedBox(height: 30),
                   Text("From: ${ticket.source}",
@@ -66,7 +71,7 @@ class Confirm extends ConsumerWidget {
                       navigateToHome(context);
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: Color.fromRGBO(15, 163, 210, 1),
+                      primary: Pallete.primaryColor,
                       onPrimary: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
