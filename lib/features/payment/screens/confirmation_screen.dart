@@ -7,39 +7,44 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:routemaster/routemaster.dart';
 
-class Confirm extends ConsumerStatefulWidget {
-  const Confirm({super.key});
+
+
+class Confirmv extends ConsumerStatefulWidget {
+  const Confirmv({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _ConfirmState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _ConfirmvState();
 }
 
-class _ConfirmState extends ConsumerState<Confirm> {
+class _ConfirmvState extends ConsumerState<Confirmv> {
   int calculatePrice(int full, int half) {
     return (full * 20) + (half * 10);
   }
-
   void navigateToHome(BuildContext context) {
     Routemaster.of(context).push('/home');
   }
+
+  void updateTicketPrice(int price, WidgetRef ref, TicketModel ticket) {
+    ref
+        .read(ticketProvider.notifier)
+        .update((state) => ticket.copyWith(price: price));}
 
   void navigateToSuccess(BuildContext context) {
     Routemaster.of(context).push('/success');
   }
 
-  void updateTicketPrice(int price, WidgetRef ref, TicketModel ticket) {
-    Future() {
-      ref
-          .read(ticketProvider.notifier)
-          .update((state) => ticket.copyWith(price: price));
-    }
-  }
+  
+  
+  
+
 
   @override
   Widget build(BuildContext context) {
     final ticket = ref.watch(ticketProvider);
     int price = calculatePrice(ticket.fullSeats, ticket.halfSeats);
-    updateTicketPrice(price, ref, ticket);
+    Future(() {
+      updateTicketPrice(price, ref, ticket);
+    });
     return Scaffold(
       backgroundColor: Pallete.primaryColor,
       body: Center(
@@ -82,7 +87,7 @@ class _ConfirmState extends ConsumerState<Confirm> {
                       openCheckout(ticket.price);
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: Color.fromRGBO(15, 163, 210, 1),
+                      primary: Pallete.primaryColor,
                       onPrimary: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
@@ -110,8 +115,9 @@ class _ConfirmState extends ConsumerState<Confirm> {
         ),
       ),
     );
+    
   }
-
+  
   late Razorpay _razorpay;
 
   void openCheckout(amount) async {
@@ -167,4 +173,4 @@ class _ConfirmState extends ConsumerState<Confirm> {
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
   }
-}
+  }

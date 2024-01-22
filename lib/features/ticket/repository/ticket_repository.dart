@@ -47,6 +47,6 @@ class TicketRepository{
     ref.read(ticketProvider.notifier).update((state) => ticket.copyWith(halfSeats: halfSeats));
   }
 
-
+  
   
 }
