@@ -21,7 +21,7 @@ class _SelectDestinationScreenState
     Routemaster.of(context).push('/addticketDetails');
   }
   void navigateToHome(BuildContext context) {
-    Routemaster.of(context).push('/home');
+    Routemaster.of(context).pop();
   }
 
   @override

@@ -1,3 +1,5 @@
+import 'package:e_vahak/core/common/widgets/primary_button.dart';
+import 'package:e_vahak/features/auth/repository/auth_repository.dart';
 import 'package:e_vahak/models/tickets.dart';
 import 'package:e_vahak/theme/pallete.dart';
 import 'package:flutter/material.dart';
@@ -7,38 +9,35 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:routemaster/routemaster.dart';
 
-
-
-
-class Confirmv extends ConsumerStatefulWidget {
-  const Confirmv({super.key});
+class Confirm extends ConsumerStatefulWidget {
+  const Confirm({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _ConfirmvState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _ConfirmState();
 }
 
-class _ConfirmvState extends ConsumerState<Confirmv> {
+class _ConfirmState extends ConsumerState<Confirm> {
   int calculatePrice(int full, int half) {
     return (full * 20) + (half * 10);
-
   }
+
   void navigateToHome(BuildContext context) {
-    Routemaster.of(context).push('/home');
+    Routemaster.of(context).pop();
   }
 
   void updateTicketPrice(int price, WidgetRef ref, TicketModel ticket) {
     ref
         .read(ticketProvider.notifier)
-        .update((state) => ticket.copyWith(price: price));}
+        .update((state) => ticket.copyWith(price: price));
+  }
 
   void navigateToSuccess(BuildContext context) {
     Routemaster.of(context).push('/success');
   }
 
-  
-  
-  
-
+  void addTicket(TicketModel ticket){
+    ref.read(ticketRepositoryProvider).addTicket(ticket, ref.read(userIdprovider));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +55,7 @@ class _ConfirmvState extends ConsumerState<Confirmv> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
-          child: Container(
+          child: SizedBox(
             width: 360,
             child: Padding(
               padding: const EdgeInsets.all(16),
@@ -84,20 +83,11 @@ class _ConfirmvState extends ConsumerState<Confirmv> {
                   Text("No. of Half Seats: ${ticket.halfSeats} ",
                       style: Theme.of(context).textTheme.titleSmall),
                   const SizedBox(height: 32),
-                  ElevatedButton(
-                    onPressed: () {
-                      openCheckout(ticket.price);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      primary: Pallete.primaryColor,
-                      onPrimary: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      minimumSize: const Size(double.infinity, 50),
-                    ),
-                    child: const Text("Pay"),
-                  ),
+                  PrimaryButton(
+                      title: 'Pay',
+                      onTapBtn: () {
+                        openCheckout(price);
+                      }),
                   const SizedBox(height: 8),
                   Center(
                     child: TextButton(
@@ -105,7 +95,7 @@ class _ConfirmvState extends ConsumerState<Confirmv> {
                         navigateToHome(context);
                       },
                       style: TextButton.styleFrom(
-                        primary: Color.fromRGBO(15, 163, 210, 1),
+                        backgroundColor: Pallete.primaryColor,
                       ),
                       child: const Text("Cancel"),
                     ),
@@ -117,9 +107,8 @@ class _ConfirmvState extends ConsumerState<Confirmv> {
         ),
       ),
     );
-    
   }
-  
+
   late Razorpay _razorpay;
 
   void openCheckout(amount) async {
@@ -142,8 +131,11 @@ class _ConfirmvState extends ConsumerState<Confirmv> {
     }
   }
 
-  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+  void _handlePaymentSuccess(PaymentSuccessResponse response,) {
+
     navigateToSuccess(context);
+    addTicket(ref.read(ticketProvider));
+
     Fluttertoast.showToast(
         msg: "Payment Successful ${response.paymentId!}",
         toastLength: Toast.LENGTH_SHORT);
@@ -175,4 +167,4 @@ class _ConfirmvState extends ConsumerState<Confirmv> {
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
   }
-  }
+}

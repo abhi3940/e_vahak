@@ -1,5 +1,4 @@
 import 'package:e_vahak/core/common/widgets/primary_button.dart';
-import 'package:e_vahak/models/stops.dart';
 import 'package:e_vahak/models/tickets.dart';
 import 'package:e_vahak/theme/pallete.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +20,7 @@ class _PassengerDetailsState extends ConsumerState<PassengerDetails> {
   }
 
   void navigateToHome(BuildContext context) {
-    Routemaster.of(context).push('/home');
+    Routemaster.of(context).pop();
   }
 
   void updateTicket(TicketModel ticket, WidgetRef ref, int full, int half) {

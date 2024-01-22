@@ -2,35 +2,21 @@ import 'package:e_vahak/core/common/widgets/password_fields.dart';
 import 'package:e_vahak/core/common/widgets/primary_button.dart';
 import 'package:e_vahak/core/common/widgets/text_feilds.dart';
 import 'package:e_vahak/features/auth/repository/auth_repository.dart';
-import 'package:e_vahak/models/user_model.dart';
-import 'package:e_vahak/theme/pallete.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
 
-void naviateToSignUp(BuildContext context) {
-  Routemaster.of(context).push('/signup');
-}
 
-void naviateToHome(BuildContext context) {
-  Routemaster.of(context).push('/home');
-}
-
-void naviateToDone(BuildContext context) {
-  Routemaster.of(context).push('/done');
-}
-
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  String? errorText = '';
+class _LoginScreenState extends ConsumerState<LoginScreen> {
+    String? errorText = '';
   bool isLogin = true;
 
   final TextEditingController mobileNumberController = TextEditingController();
@@ -41,6 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
       await AuthRepository().signInWithEmailAndPassword(
         email: mobileNumberController.text,
         password: passwordController.text,
+        ref: ref,
       );
       return true; // Sign-in successful
     } on FirebaseAuthException catch (e) {
@@ -56,6 +43,14 @@ class _LoginScreenState extends State<LoginScreen> {
       return false; // Sign-in failed
     }
   }
+  void naviateToSignUp(BuildContext context) {
+  Routemaster.of(context).push('/signup');
+}
+
+
+void naviateToDone(BuildContext context) {
+  Routemaster.of(context).push('/done');
+}
 
   @override
   Widget build(BuildContext context) {
@@ -102,10 +97,8 @@ class _LoginScreenState extends State<LoginScreen> {
               PrimaryButton(
                   title: 'Log In',
                   onTapBtn: () async {
-                    final signInSuccessful = await signInWithEmailPassword();
-                    if (signInSuccessful) {
-                      naviateToHome(context);
-                    }
+                     await signInWithEmailPassword();
+                    
                   }),
               const SizedBox(
                 height: 20,

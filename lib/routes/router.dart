@@ -21,10 +21,9 @@ final loggedOutRoutes = RouteMap(
 
 final loggedInRoutes = RouteMap(
   routes: {
-    '/': (_) => const MaterialPage<void>(child: LoginScreen()),
-    '/signup': (_) => const MaterialPage<void>(child: SignUpScreen()),
+    
     '/done': (_) => const MaterialPage<void>(child: Done()),
-    '/home': (_) => const MaterialPage<void>(child: HomeScreen()),
+    '/': (_) => const MaterialPage<void>(child: HomeScreen()),
     '/selectSource': (_) => const MaterialPage<void>(child: SelectSourceScreen()),
     '/selectDestination/:index': (route) => MaterialPage(child: SelectDestinationScreen(selectedSource: int.parse(route.pathParameters['index']!))),
     '/addticketDetails': (_) => const MaterialPage<void>(child: PassengerDetails()),

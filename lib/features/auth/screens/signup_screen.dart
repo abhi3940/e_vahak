@@ -2,43 +2,39 @@ import 'package:e_vahak/core/common/widgets/password_fields.dart';
 import 'package:e_vahak/core/common/widgets/primary_button.dart';
 import 'package:e_vahak/core/common/widgets/text_feilds.dart';
 import 'package:e_vahak/features/auth/repository/auth_repository.dart';
-import 'package:e_vahak/theme/pallete.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
 
-void naviateToLogin(BuildContext context) {
-  Routemaster.of(context).push('/login');
-}
-
-void naviateToHome(BuildContext context) {
-  Routemaster.of(context).push('/home');
-}
-
-void naviateToDone(BuildContext context) {
-  Routemaster.of(context).push('/done');
-}
-
-class SignUpScreen extends StatefulWidget {
+class SignUpScreen extends ConsumerStatefulWidget {
   const SignUpScreen({super.key});
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _SignUpScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   String? errorText = '';
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController adharnoController = TextEditingController();
 
+  void naviateToLogin(BuildContext context) {
+  Routemaster.of(context).push('/login');
+}
+
+void naviateToDone(BuildContext context) {
+  Routemaster.of(context).push('/done');
+}
+
   Future<void> createUserWithEmailAndPassword() async {
     try {
       await AuthRepository().createUserWithEmailAndPassword(
+        ref: ref,
         email: emailController.text,
         password: passwordController.text,
         adharNumber: int.parse(adharnoController.text),
@@ -105,10 +101,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
               PrimaryButton(
                   title: 'Sign Up',
                   onTapBtn: () async{
-                    print('start');
+                    if (kDebugMode) {
+                      print('start');
+                    }
                     await createUserWithEmailAndPassword();
-                    print('done');
-                    naviateToHome(context);
+                    if (kDebugMode) {
+                      print('done');
+                    }
                   }),
               const SizedBox(
                 height: 20,
