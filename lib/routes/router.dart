@@ -4,6 +4,7 @@ import 'package:e_vahak/features/auth/screens/login_screen.dart';
 import 'package:e_vahak/features/auth/screens/signup_screen.dart';
 import 'package:e_vahak/features/home/screens/home_screen.dart';
 import 'package:e_vahak/features/payment/screens/confirmation_screen.dart';
+
 import 'package:e_vahak/features/payment/screens/success_screen.dart';
 import 'package:e_vahak/features/ticket/screens/add_details_screen.dart';
 import 'package:e_vahak/features/ticket/screens/select_destination_screen.dart';
@@ -20,15 +21,15 @@ final loggedOutRoutes = RouteMap(
 
 final loggedInRoutes = RouteMap(
   routes: {
-    '/': (_) => const MaterialPage<void>(child: LoginScreen()),
-    '/signup': (_) => const MaterialPage<void>(child: SignUpScreen()),
+    
     '/done': (_) => const MaterialPage<void>(child: Done()),
-    '/home': (_) => const MaterialPage<void>(child: HomeScreen()),
+    '/': (_) => const MaterialPage<void>(child: HomeScreen()),
     '/selectSource': (_) => const MaterialPage<void>(child: SelectSourceScreen()),
     '/selectDestination/:index': (route) => MaterialPage(child: SelectDestinationScreen(selectedSource: int.parse(route.pathParameters['index']!))),
     '/addticketDetails': (_) => const MaterialPage<void>(child: PassengerDetails()),
-    '/confirmation': (_) => const MaterialPage<void>(child:ConfirmScreen()),
-    '/success': (_) => const MaterialPage<void>(child:Success()),
+
+    '/confirmation': (_) => const MaterialPage<void>(child: Confirm()),
+    '/success': (_) => const MaterialPage<void>(child: Success()),
 
 
 
