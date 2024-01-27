@@ -7,7 +7,7 @@ class CustomTextFeilds extends StatelessWidget {
   final TextEditingController controller;
   final List<TextInputFormatter> inputFormatters;
 
-  CustomTextFeilds({
+  const CustomTextFeilds({super.key, 
     required this.hint,
     required this.controller,
     this.inputFormatters = const [],  // Default to an empty list

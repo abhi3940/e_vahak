@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_vahak/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,18 +5,22 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-final authRepositoryProvider = Provider<AuthRepository>((ref) => AuthRepository());
-final authStateChangesProvider = StreamProvider<User?>((ref) => ref.read(authRepositoryProvider).authStateChanges);
+final authRepositoryProvider =
+    Provider<AuthRepository>((ref) => AuthRepository());
+final authStateChangesProvider = StreamProvider<User?>((ref) {
+  final authController = ref.watch(authRepositoryProvider);
+  return authController.authStateChanges;
+});
 
 // Provider for UserModel. It uses StateProvider to manage the state of the user.
 final userIdprovider = StateProvider<String>((ref) => '');
+final userProvider = StateProvider<UserModel?>((ref) => null);
 
 class AuthRepository {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   User? get currentUser => _firebaseAuth.currentUser;
 
-  CollectionReference users =
-          FirebaseFirestore.instance.collection('users');
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
 
   Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
 
@@ -26,13 +29,16 @@ class AuthRepository {
     required String password,
     required WidgetRef ref,
   }) async {
-     try {
+    try {
       //use userCredential to get the user's uid
       //add that to the ticket aswell
-      
-      UserCredential userCredential= await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
-      String uid = userCredential.user?.uid ?? '';
-      ref.read(userIdprovider.notifier).update((state) => uid);
+
+      UserCredential userCredential = await _firebaseAuth
+          .signInWithEmailAndPassword(email: email, password: password);
+      UserModel userModel = await getUserData(userCredential.user!.uid).first;
+      ref.read(userIdprovider.notifier).update((state) => userModel.uid);
+      ref.read(userProvider.notifier).update((state) => userModel);
+
 
       // Save the sign-in state
       final prefs = await SharedPreferences.getInstance();
@@ -60,7 +66,7 @@ class AuthRepository {
         password: password,
       );
 
-      String uid = userCredential.user?.uid ?? '';
+      String uid = userCredential.user?.uid??'';
       UserModel userModel = UserModel(
         name: 'name',
         email: email,
@@ -74,6 +80,7 @@ class AuthRepository {
       // Add the user model to Firestore
       await users.doc(uid).set(userModel.toMap());
       ref.read(userIdprovider.notifier).update((state) => uid);
+      ref.read(userProvider.notifier).update((state) => userModel);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         if (kDebugMode) {

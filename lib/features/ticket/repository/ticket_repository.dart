@@ -18,7 +18,7 @@ final ticketProvider = StateProvider<TicketModel>((ref) => TicketModel(
       source: '',
       destination: '',
       date: '',
-      time: '',
+      time: FieldValue.serverTimestamp().toString(),
       ticketId: '',
       busId: '',
       uid: '',
@@ -33,8 +33,8 @@ class TicketRepository {
       : _firestore = firestore;
   CollectionReference get _tickets => _firestore.collection('tickets');
 
-  Future<void> addTicket(TicketModel ticket, String uid) async {
-    ticket.copyWith(date: DateTime.now().toString(),time: DateTime.now().toString(),uid: uid);
+  Future<void> addTicket(TicketModel ticket) async {
+
     try {
       await _tickets.add(ticket.toMap());
     } catch (e) {
@@ -46,8 +46,8 @@ class TicketRepository {
 
   Stream<List<TicketModel>> getTickets(String uid) {
     return _tickets
-        .where('uid', isEqualTo:uid )
-        .orderBy('date', descending: true)
+        .where('uid', isEqualTo: '' )
+        .orderBy('time', descending: true)
         .snapshots()
         .map(
           (event) => event.docs

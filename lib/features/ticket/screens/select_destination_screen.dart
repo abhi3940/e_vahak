@@ -69,44 +69,42 @@ class _SelectDestinationScreenState
                       itemBuilder: (context, index) {
                         return widget.selectedSource >= index
                             ? Container()
-                            : Container(
-                                child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        height: 33,
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Radio(
-                                              value: index,
-                                              groupValue: selectedRadio,
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  selectedRadio = value as int;
-                                                });
-                                              },
-                                            ),
-                                            Text(
-                                              stops[index]['name'] as String,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .titleSmall,
-                                            ),
-                                          ],
+                            : Column(
+                                crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    height: 33,
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Radio(
+                                          value: index,
+                                          groupValue: selectedRadio,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              selectedRadio = value as int;
+                                            });
+                                          },
                                         ),
-                                      ),
-                                      const Padding(
-                                        padding: EdgeInsets.only(
-                                            left: 8.0, right: 8.0),
-                                        child: Divider(
-                                          color: Pallete.grey3,
+                                        Text(
+                                          stops[index]['name'] as String,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleSmall,
                                         ),
-                                      )
-                                    ]),
-                              );
+                                      ],
+                                    ),
+                                  ),
+                                  const Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 8.0, right: 8.0),
+                                    child: Divider(
+                                      color: Pallete.grey3,
+                                    ),
+                                  )
+                                ]);
                       })),
               TextButton(
                   onPressed: () {},

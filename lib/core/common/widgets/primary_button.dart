@@ -5,7 +5,7 @@ class PrimaryButton extends StatelessWidget {
   final String title;
   final VoidCallback? onTapBtn; // Modify this line
 
-  PrimaryButton({Key? key, required this.title, this.onTapBtn})
+  const PrimaryButton({Key? key, required this.title, this.onTapBtn})
       : super(key: key); // Modify this line
 
   @override

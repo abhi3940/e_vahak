@@ -1,5 +1,4 @@
 import 'package:e_vahak/core/common/widgets/primary_button.dart';
-import 'package:e_vahak/features/auth/repository/auth_repository.dart';
 import 'package:e_vahak/models/tickets.dart';
 import 'package:e_vahak/theme/pallete.dart';
 import 'package:flutter/material.dart';
@@ -35,8 +34,9 @@ class _ConfirmState extends ConsumerState<Confirm> {
     Routemaster.of(context).push('/success');
   }
 
-  void addTicket(TicketModel ticket){
-    ref.read(ticketRepositoryProvider).addTicket(ticket, ref.read(userIdprovider));
+  void addTicket(){
+    TicketModel ticket = ref.read(ticketProvider);
+    ref.read(ticketRepositoryProvider).addTicket(ticket);
   }
 
   @override
@@ -134,7 +134,7 @@ class _ConfirmState extends ConsumerState<Confirm> {
   void _handlePaymentSuccess(PaymentSuccessResponse response,) {
 
     navigateToSuccess(context);
-    addTicket(ref.read(ticketProvider));
+    addTicket();
 
     Fluttertoast.showToast(
         msg: "Payment Successful ${response.paymentId!}",

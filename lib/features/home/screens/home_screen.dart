@@ -64,8 +64,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-  print(ref.read(userIdprovider));
-  print('hello');
+  //print(ref.read(authRepositoryProvider).currentUser);
+  //print(ref.read(userIdprovider));
+  //print('hello');
 
 
     return Scaffold(

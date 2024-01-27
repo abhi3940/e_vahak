@@ -19,6 +19,7 @@ class _SelectSourceScreenState extends ConsumerState<SelectSourceScreen> {
   void naviateToSelectDestination(BuildContext context) {
     Routemaster.of(context).push('/selectDestination/$selectedRadio');
   }
+
   void navigateToHome(BuildContext context) {
     Routemaster.of(context).pop();
   }
@@ -87,23 +88,30 @@ class _SelectSourceScreenState extends ConsumerState<SelectSourceScreen> {
                                     ),
                                     Text(
                                       stops[index]['name'] as String,
-                                      style: Theme.of(context).textTheme.titleSmall,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleSmall,
                                     ),
                                   ],
                                 ),
                               ),
                               const Padding(
-                                padding: EdgeInsets.only(left:8.0,right: 8.0),
-                                child: Divider(color: Pallete.grey3,),
+                                padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                                child: Divider(
+                                  color: Pallete.grey3,
+                                ),
                               )
                             ]);
                       })),
               PrimaryButton(
                   title: 'Next',
                   onTapBtn: () {
-                    ref.read(ticketProvider.notifier).update((state) =>
-                        ticket.copyWith(
-                            source: stops[selectedRadio]['name'] as String));
+                    ref
+                        .read(ticketProvider.notifier)
+                        .update((state) => ticket.copyWith(
+                              source: stops[selectedRadio]['name'] as String,
+                              // uid: ref.read(userIdprovider),
+                            ));
                     naviateToSelectDestination(context);
                   }),
               const SizedBox(

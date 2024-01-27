@@ -15,7 +15,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(ProviderScope(child: MyApp()));
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends ConsumerStatefulWidget {
@@ -46,7 +46,8 @@ class _MyAppState extends ConsumerState<MyApp> {
               debugShowCheckedModeBanner: false,
               title: 'e-Vahak',
               routerDelegate: RoutemasterDelegate(routesBuilder: (context) {
-                if (data == null) {
+                //print(ref.read(userIdprovider));
+                if (data == null&&ref.read(userIdprovider)=='') {
                   return loggedOutRoutes;
                 } else {
                   return loggedInRoutes;

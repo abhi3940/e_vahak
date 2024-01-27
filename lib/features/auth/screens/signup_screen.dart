@@ -24,7 +24,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   final TextEditingController adharnoController = TextEditingController();
 
   void naviateToLogin(BuildContext context) {
-  Routemaster.of(context).push('/login');
+  Routemaster.of(context).pop();
 }
 
 void naviateToDone(BuildContext context) {
