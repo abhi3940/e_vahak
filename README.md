@@ -12,9 +12,9 @@ Explore our Figma templates for a sneak peek into the application's user and adm
 Feel the experience firsthand by trying the live demo! 📱
 
 ## Screenshots 📸
-<img width="300" alt="Screenshot 2024-01-27 at 3 06 05 PM" src="https://github.com/abhi3940/e_vahak/assets/75218064/6ddd0909-1aa8-499e-bc6d-82899bf024b3">
-<img width="300" alt="Screenshot 2024-01-27 at 3 08 31 PM" src="https://github.com/abhi3940/e_vahak/assets/75218064/18f81c4b-ee07-4b84-bebb-445a8809f926">
-<img width="300" alt="Screenshot 2024-01-27 at 3 07 53 PM" src="https://github.com/abhi3940/e_vahak/assets/75218064/2094a971-0f66-4cdf-8930-c9893d1ad27d">
+<img width="280" alt="Screenshot 2024-01-27 at 3 06 05 PM" src="https://github.com/abhi3940/e_vahak/assets/75218064/6ddd0909-1aa8-499e-bc6d-82899bf024b3">
+<img width="280" alt="Screenshot 2024-01-27 at 3 08 31 PM" src="https://github.com/abhi3940/e_vahak/assets/75218064/18f81c4b-ee07-4b84-bebb-445a8809f926">
+<img width="280" alt="Screenshot 2024-01-27 at 3 07 53 PM" src="https://github.com/abhi3940/e_vahak/assets/75218064/2094a971-0f66-4cdf-8930-c9893d1ad27d">
 
 
 
