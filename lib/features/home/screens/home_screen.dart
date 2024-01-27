@@ -117,6 +117,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   error: (error, stackTrace) {
                     if (kDebugMode) {
                       print(error.toString());
+                      print(stackTrace.toString());
                     }
 
                     return Center(

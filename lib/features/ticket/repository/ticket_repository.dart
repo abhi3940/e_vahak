@@ -1,13 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_vahak/core/providers/firebase_providers.dart';
-import 'package:e_vahak/features/auth/repository/auth_repository.dart';
 import 'package:e_vahak/models/tickets.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final getTicketProvider = StreamProvider((ref) {
-  String uid = ref.read(userIdprovider);
-  return ref.read(ticketRepositoryProvider).getTickets(uid);
+  //String uid = ref.read(userIdprovider);
+  return ref.read(ticketRepositoryProvider).getTickets('');
 });
 
 final ticketRepositoryProvider = Provider<TicketRepository>((ref) {
@@ -18,13 +17,14 @@ final ticketProvider = StateProvider<TicketModel>((ref) => TicketModel(
       source: '',
       destination: '',
       date: '',
-      time: FieldValue.serverTimestamp().toString(),
+      time: DateTime.now().toString(),
       ticketId: '',
       busId: '',
       uid: '',
       price: 0,
       fullSeats: 0,
       halfSeats: 0,
+      createdAt: DateTime.now(),
     ));
 
 class TicketRepository {
@@ -47,7 +47,7 @@ class TicketRepository {
   Stream<List<TicketModel>> getTickets(String uid) {
     return _tickets
         .where('uid', isEqualTo: '' )
-        .orderBy('time', descending: true)
+        .orderBy('createdAt', descending: true)
         .snapshots()
         .map(
           (event) => event.docs

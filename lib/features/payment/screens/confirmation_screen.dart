@@ -94,10 +94,7 @@ class _ConfirmState extends ConsumerState<Confirm> {
                       onPressed: () {
                         navigateToHome(context);
                       },
-                      style: TextButton.styleFrom(
-                        backgroundColor: Pallete.primaryColor,
-                      ),
-                      child: const Text("Cancel"),
+                      child: const Text("Cancel",style: TextStyle(color: Pallete.primaryColor),),
                     ),
                   ),
                 ],
