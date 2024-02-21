@@ -64,84 +64,90 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-  //print(ref.read(authRepositoryProvider).currentUser);
-  //print(ref.read(userIdprovider));
-  //print('hello');
-
+    //print(ref.read(authRepositoryProvider).currentUser);
+    //print(ref.read(userIdprovider));
+    //print('hello');
 
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'E-Vahak',
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-          leading: IconButton(
-              icon: const Icon(Icons.menu, color: Pallete.grey3),
-              onPressed: ()=> Scaffold.of(context).openDrawer() ),
+      appBar: AppBar(
+        title: Text(
+          'E-Vahak',
+          style: Theme.of(context).textTheme.titleLarge,
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(
-                height: 20,
+        leading: Builder(
+          builder: (context) {
+            return IconButton(
+                icon: const Icon(Icons.menu, color: Pallete.grey3),
+                onPressed: () {
+                  Scaffold.of(context).openDrawer();
+                });
+          }
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'Your Tickets',
+                style: Theme.of(context).textTheme.titleMedium,
+                textAlign: TextAlign.left,
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'Your Tickets',
-                  style: Theme.of(context).textTheme.titleMedium,
-                  textAlign: TextAlign.left,
-                ),
-              ),
-              ref.watch(getTicketProvider).when(
-                  data: (ticket) {
-                    return Expanded(
-                      child: ListView.builder(
-                          itemCount: ticket.length,
-                          itemBuilder: (context, index) {
-                            return TicketCard(
-                              source: ticket[index].source,
-                              destination: ticket[index].destination,
-                              fullSeats: ticket[index].fullSeats,
-                              halfSeats: ticket[index].halfSeats,
-                              price: ticket[index].price,
-                            );
-                          }),
-                    );
-                  },
-                  loading: () => const Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                  error: (error, stackTrace) {
-                    if (kDebugMode) {
-                      print(error.toString());
-                      print(stackTrace.toString());
-                    }
+            ),
+            ref.watch(getTicketProvider).when(
+                data: (ticket) {
+                  return Expanded(
+                    child: ListView.builder(
+                        itemCount: ticket.length,
+                        itemBuilder: (context, index) {
+                          return TicketCard(
+                            source: ticket[index].source,
+                            destination: ticket[index].destination,
+                            fullSeats: ticket[index].fullSeats,
+                            halfSeats: ticket[index].halfSeats,
+                            price: ticket[index].price,
+                          );
+                        }),
+                  );
+                },
+                loading: () => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                error: (error, stackTrace) {
+                  if (kDebugMode) {
+                    print(error.toString());
+                    print(stackTrace.toString());
+                  }
 
-                    return Center(
-                      child: Text(
-                        error.toString(),
-                        style: Theme.of(context).textTheme.titleSmall,
-                      ),
-                    );
-                  }),
-              PrimaryButton(
-                  title: 'Book Pass',
-                  onTapBtn: () {
-                    scanQR();
-                  }),
-              PrimaryButton(
-                  title: 'Book Tickets',
-                  onTapBtn: () => navigateToSelectSource(context)),
-              const SizedBox(
-                height: 20,
-              ),
-            ],
-          ),
+                  return Center(
+                    child: Text(
+                      error.toString(),
+                      style: Theme.of(context).textTheme.titleSmall,
+                    ),
+                  );
+                }),
+            PrimaryButton(
+                title: 'Book Pass',
+                onTapBtn: () {
+                  scanQR();
+                }),
+            PrimaryButton(
+                title: 'Book Tickets',
+                onTapBtn: () => navigateToSelectSource(context)),
+            const SizedBox(
+              height: 20,
+            ),
+          ],
         ),
-        drawer: const MainDrawer());
+      ),
+      drawer: const MainDrawer(),
+    );
   }
 }
 

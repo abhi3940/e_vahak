@@ -47,7 +47,7 @@ class _MyAppState extends ConsumerState<MyApp> {
               title: 'e-Vahak',
               routerDelegate: RoutemasterDelegate(routesBuilder: (context) {
                 //print(ref.read(userIdprovider));
-                if (data == null&&ref.read(userIdprovider)=='') {
+                if (data == null) {
                   return loggedOutRoutes;
                 } else {
                   return loggedInRoutes;
