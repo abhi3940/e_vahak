@@ -141,7 +141,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 title: 'Book Tickets',
                 onTapBtn: () => navigateToSelectSource(context)),
             const SizedBox(
-              height: 20,
+                height: 20,
             ),
           ],
         ),
