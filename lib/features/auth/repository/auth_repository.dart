@@ -5,12 +5,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+//provider for AuthRepository
 final authRepositoryProvider =
     Provider<AuthRepository>((ref) => AuthRepository());
-final authStateChangesProvider = StreamProvider<User?>((ref) {
-  final authController = ref.watch(authRepositoryProvider);
-  return authController.authStateChanges;
-});
 
 // Provider for UserModel. It uses StateProvider to manage the state of the user.
 final userIdprovider = StateProvider<String>((ref) => '');
@@ -24,10 +21,9 @@ class AuthRepository {
 
   Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
 
-  Future<void> signInWithEmailAndPassword({
+  Future<UserModel> signInWithEmailAndPassword({
     required String email,
     required String password,
-    required WidgetRef ref,
   }) async {
     try {
       //use userCredential to get the user's uid
@@ -36,22 +32,17 @@ class AuthRepository {
       UserCredential userCredential = await _firebaseAuth
           .signInWithEmailAndPassword(email: email, password: password);
       UserModel userModel = await getUserData(userCredential.user!.uid).first;
-      ref.read(userIdprovider.notifier).update((state) => userModel.uid);
-      ref.read(userProvider.notifier).update((state) => userModel);
 
-
-      // Save the sign-in state
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setBool('signedIn', true);
+      return userModel;
     } catch (e) {
       if (kDebugMode) {
         print(e);
       }
     }
+    throw Exception('Sign in failed');
   }
 
-  Future<void> createUserWithEmailAndPassword({
-    required WidgetRef ref,
+  Future<UserModel> createUserWithEmailAndPassword({
     required String email,
     required String password,
     required int adharNumber,
@@ -66,7 +57,7 @@ class AuthRepository {
         password: password,
       );
 
-      String uid = userCredential.user?.uid??'';
+      String uid = userCredential.user!.uid;
       UserModel userModel = UserModel(
         name: 'name',
         email: email,
@@ -79,8 +70,7 @@ class AuthRepository {
 
       // Add the user model to Firestore
       await users.doc(uid).set(userModel.toMap());
-      ref.read(userIdprovider.notifier).update((state) => uid);
-      ref.read(userProvider.notifier).update((state) => userModel);
+      return userModel;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         if (kDebugMode) {
@@ -96,11 +86,14 @@ class AuthRepository {
         }
       }
     }
+    if (kDebugMode) {
+      print('Sign up failed');
+    }
+    throw Exception('Sign up failed');
   }
 
-  Future<void> signOut(WidgetRef ref) async {
+  Future<void> signOut() async {
     await _firebaseAuth.signOut();
-    ref.read(userIdprovider.notifier).update((state) => '');
     // Clear the sign-in state
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('signedIn', false);

@@ -89,9 +89,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(
-              height: 20,
-            ),
+            
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
@@ -141,7 +139,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 title: 'Book Tickets',
                 onTapBtn: () => navigateToSelectSource(context)),
             const SizedBox(
-                height: 20,
+                height: 10,
             ),
           ],
         ),
@@ -222,7 +220,7 @@ class MainDrawer extends ConsumerWidget {
           leading: const Icon(Icons.logout),
           title: const Text('Log Out'),
           onTap: () {
-            ref.read(authRepositoryProvider).signOut(ref);
+            ref.read(authRepositoryProvider).signOut();
           },
         ),
       ],

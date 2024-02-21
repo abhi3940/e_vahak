@@ -1,12 +1,10 @@
 import 'package:e_vahak/core/common/widgets/password_fields.dart';
 import 'package:e_vahak/core/common/widgets/primary_button.dart';
 import 'package:e_vahak/core/common/widgets/text_feilds.dart';
-import 'package:e_vahak/features/auth/repository/auth_repository.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:e_vahak/features/auth/controller/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
-
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -16,41 +14,17 @@ class LoginScreen extends ConsumerStatefulWidget {
 }
 
 class _LoginScreenState extends ConsumerState<LoginScreen> {
-    String? errorText = '';
-  bool isLogin = true;
 
   final TextEditingController mobileNumberController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  Future<bool> signInWithEmailPassword() async {
-    try {
-      await AuthRepository().signInWithEmailAndPassword(
-        email: mobileNumberController.text,
-        password: passwordController.text,
-        ref: ref,
-      );
-      return true; // Sign-in successful
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        setState(() {
-          errorText = 'No user found for that email.';
-        });
-      } else if (e.code == 'wrong-password') {
-        setState(() {
-          errorText = 'Wrong password provided for that user.';
-        });
-      }
-      return false; // Sign-in failed
-    }
+  void signIn(){
+    ref.read(authContollerProvider.notifier).signInWithEmailAndPassword(mobileNumberController.text, passwordController.text);
   }
+
   void naviateToSignUp(BuildContext context) {
-  Routemaster.of(context).push('/signup');
-}
-
-
-void naviateToDone(BuildContext context) {
-  Routemaster.of(context).push('/done');
-}
+    Routemaster.of(context).push('/signup');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,10 +70,9 @@ void naviateToDone(BuildContext context) {
                       style: Theme.of(context).textTheme.bodySmall)),
               PrimaryButton(
                   title: 'Log In',
-                  onTapBtn: () async {
-                     await signInWithEmailPassword();
-                    
-                  }),
+                  onTapBtn: ()=> signIn() 
+                  
+                  ),
               const SizedBox(
                 height: 20,
               ),
