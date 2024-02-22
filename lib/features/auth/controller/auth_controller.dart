@@ -3,9 +3,10 @@ import 'package:e_vahak/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final userProvider = StateProvider<UserModel?>((ref) => null);
-
-
+final userIdProvider = StateProvider<String>((ref) {
+  final user = ref.watch(authStateChangeProvider).whenData((value) => value);
+  return user.value!.uid;
+});
 
 final authContollerProvider = StateNotifierProvider<AuthController, bool>(
     (ref) => AuthController(
@@ -33,7 +34,7 @@ class AuthController extends StateNotifier<bool> {
   Stream<User?> get authStateChanges => _authRepository.authStateChanges;
 
   //method to sign in with email and password whith bool for loading
-  void signInWithEmailAndPassword(email,password)async{
+  void signInWithEmailAndPassword(email, password) async {
     state = true;
     final user = await _authRepository.signInWithEmailAndPassword(
       email: email,
@@ -44,7 +45,7 @@ class AuthController extends StateNotifier<bool> {
   }
 
   // Method to create user with email and password. It calls the createUserWithEmailAndPassword method from the AuthRepository.
-  void createUserWithEmailAndPassword(email,password,adharNumber)async{
+  void createUserWithEmailAndPassword(email, password, adharNumber) async {
     state = true;
     final user = await _authRepository.createUserWithEmailAndPassword(
       email: email,
@@ -52,10 +53,9 @@ class AuthController extends StateNotifier<bool> {
       adharNumber: adharNumber,
     );
     state = false;
-    _ref.read(userProvider.notifier).update((state) => user );
+    _ref.read(userProvider.notifier).update((state) => user);
   }
 
-  
   // Method to get user data. It calls the getUserData method from the AuthRepository.
   Stream<UserModel> getUserData(String uid) {
     return _authRepository.getUserData(uid);
@@ -63,6 +63,6 @@ class AuthController extends StateNotifier<bool> {
 
   // Method to sign out. It calls the signOut method from the AuthRepository.
   void logOut() async {
-     _authRepository.signOut();
+    _authRepository.signOut();
   }
 }

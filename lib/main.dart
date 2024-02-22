@@ -38,7 +38,7 @@ class _MyAppState extends ConsumerState<MyApp> {
                   print('data null');
                   return loggedOutRoutes;
                 } else {
-                  print('data not null');
+                  print(data.uid);
                   return loggedInRoutes;
                 }
               }),

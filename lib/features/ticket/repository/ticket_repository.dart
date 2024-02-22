@@ -1,31 +1,37 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_vahak/core/providers/firebase_providers.dart';
+import 'package:e_vahak/features/auth/controller/auth_controller.dart';
 import 'package:e_vahak/models/tickets.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final getTicketProvider = StreamProvider((ref) {
-  //String uid = ref.read(userIdprovider);
-  return ref.read(ticketRepositoryProvider).getTickets('');
+  final uid = ref.watch(userIdProvider);
+  print(uid);
+  return ref.read(ticketRepositoryProvider).getTickets(uid);
 });
 
 final ticketRepositoryProvider = Provider<TicketRepository>((ref) {
   return TicketRepository(firestore: ref.read(firestoreProvider));
 });
 
-final ticketProvider = StateProvider<TicketModel>((ref) => TicketModel(
-      source: '',
-      destination: '',
-      date: '',
-      time: DateTime.now().toString(),
-      ticketId: '',
-      busId: '',
-      uid: '',
-      price: 0,
-      fullSeats: 0,
-      halfSeats: 0,
-      createdAt: DateTime.now(),
-    ));
+final ticketProvider = StateProvider<TicketModel>((ref) {
+  final uid = ref.watch(userIdProvider);
+  print(uid);
+  return TicketModel(
+    source: '',
+    destination: '',
+    date: '',
+    time: DateTime.now().toString(),
+    ticketId: '',
+    busId: '',
+    uid: uid,
+    price: 0,
+    fullSeats: 0,
+    halfSeats: 0,
+    createdAt: DateTime.now(),
+  );
+});
 
 class TicketRepository {
   final FirebaseFirestore _firestore;
@@ -34,7 +40,6 @@ class TicketRepository {
   CollectionReference get _tickets => _firestore.collection('tickets');
 
   Future<void> addTicket(TicketModel ticket) async {
-
     try {
       await _tickets.add(ticket.toMap());
     } catch (e) {
@@ -46,7 +51,7 @@ class TicketRepository {
 
   Stream<List<TicketModel>> getTickets(String uid) {
     return _tickets
-        .where('uid', isEqualTo: '' )
+        .where('uid', isEqualTo: uid)
         .orderBy('createdAt', descending: true)
         .snapshots()
         .map(
