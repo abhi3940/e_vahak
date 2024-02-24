@@ -1,4 +1,5 @@
 import 'package:e_vahak/core/common/widgets/primary_button.dart';
+import 'package:e_vahak/features/auth/repository/auth_repository.dart';
 import 'package:e_vahak/models/tickets.dart';
 import 'package:e_vahak/theme/pallete.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,7 @@ class _ConfirmState extends ConsumerState<Confirm> {
     Routemaster.of(context).push('/success');
   }
 
-  void addTicket(){
+  void addTicket() {
     TicketModel ticket = ref.read(ticketProvider);
     ref.read(ticketRepositoryProvider).addTicket(ticket);
   }
@@ -94,7 +95,10 @@ class _ConfirmState extends ConsumerState<Confirm> {
                       onPressed: () {
                         navigateToHome(context);
                       },
-                      child: const Text("Cancel",style: TextStyle(color: Pallete.primaryColor),),
+                      child: const Text(
+                        "Cancel",
+                        style: TextStyle(color: Pallete.primaryColor),
+                      ),
                     ),
                   ),
                 ],
@@ -109,12 +113,14 @@ class _ConfirmState extends ConsumerState<Confirm> {
   late Razorpay _razorpay;
 
   void openCheckout(amount) async {
+    final user = ref.read(userProvider);
+    final ticket = ref.watch(ticketProvider);
     amount = amount * 100;
     var options = {
       'key': 'rzp_test_XmpG9DGEHl7iYz',
       'name': 'E-vahak',
       'description': 'PMPML',
-      'prefill': {'contact': '7887886615', 'email': 'ganeshs.0520@gmail.com'},
+      'prefill': {'contact': '7410189576', 'email': user!.email, 'route': '${ticket.source} to ${ticket.destination}' , 'number of seats':ticket.fullSeats+ticket.halfSeats },
       "amount": amount,
       "timeout": 60,
       "external": {
@@ -128,8 +134,9 @@ class _ConfirmState extends ConsumerState<Confirm> {
     }
   }
 
-  void _handlePaymentSuccess(PaymentSuccessResponse response,) {
-
+  void _handlePaymentSuccess(
+    PaymentSuccessResponse response,
+  ) {
     navigateToSuccess(context);
     addTicket();
 

@@ -1,69 +1,16 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:e_vahak/features/home/screens/drawer.dart';
 import 'package:e_vahak/features/home/screens/ticket_card.dart';
 import 'package:e_vahak/features/ticket/repository/ticket_repository.dart';
+import 'package:e_vahak/theme/pallete.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:e_vahak/core/common/widgets/primary_button.dart';
-import 'package:e_vahak/theme/pallete.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:routemaster/routemaster.dart';
 
-class HomeScreen extends ConsumerStatefulWidget {
-  const HomeScreen({super.key});
-
-  @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends ConsumerState<HomeScreen> {
-  void navigateToSelectSource(BuildContext context) {
-    Routemaster.of(context).push('/selectSource');
-  }
-
-  void displayDrawer(BuildContext context) {
-    Scaffold.of(context).openDrawer();
-  }
-
-
-  String qrScanRes = '';
+class AdminScreen extends ConsumerWidget {
+  const AdminScreen({super.key});
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  Future<void> scanQR() async {
-    String qrScanRes;
-    try {
-      qrScanRes = await FlutterBarcodeScanner.scanBarcode(
-        '#ff6666',
-        'Cancel',
-        true,
-        ScanMode.QR,
-      );
-      debugPrint(qrScanRes);
-    } on PlatformException {
-      qrScanRes = "Failed to get platform version.";
-    }
-    if (!mounted) return;
-
-    setState(() {
-      qrScanRes = qrScanRes;
-    });
-
-    // Navigate to a new page with the result
-    navigateToSelectSource(context);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    //print(ref.read(authRepositoryProvider).currentUser);
-    //print(ref.read(userIdprovider));
-    //print('hello');
-
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -89,12 +36,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                'Your Tickets',
+                'Current Bus Tickets',
                 style: Theme.of(context).textTheme.titleMedium,
                 textAlign: TextAlign.left,
               ),
             ),
-            ref.watch(getTicketProvider).when(
+            ref.watch(getBusTicketProvider).when(
                 data: (ticket) {
                   return Expanded(
                     child: ListView.builder(
@@ -126,14 +73,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ),
                   );
                 }),
-            PrimaryButton(
-                title: 'Book Pass',
-                onTapBtn: () {
-                  scanQR();
-                }),
-            PrimaryButton(
-                title: 'Book Tickets',
-                onTapBtn: () => navigateToSelectSource(context)),
+            
             const SizedBox(
                 height: 10,
             ),
@@ -144,6 +84,3 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 }
-
-
-

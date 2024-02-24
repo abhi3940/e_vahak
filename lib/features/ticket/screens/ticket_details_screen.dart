@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:e_vahak/theme/pallete.dart';
+import 'package:routemaster/routemaster.dart';
 
 
 class Ticket extends StatelessWidget {
   const Ticket({Key? key}) : super(key: key);
+
+  void navigateToHome(BuildContext context) {
+    Routemaster.of(context).pop();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +41,7 @@ class Ticket extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Container(
-                width: 323,
-                height: 240,
+                
                 child: const Padding(
                   padding:  EdgeInsets.all(16),
                   child: Column(
@@ -69,7 +73,7 @@ class Ticket extends StatelessWidget {
             right: 16,
             child: ElevatedButton(
               onPressed: () {
-                // Add your logic for the "Done" button
+                navigateToHome(context);
               },
               style: ElevatedButton.styleFrom(
                 primary: Color.fromRGBO(15, 163, 210, 1),

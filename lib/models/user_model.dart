@@ -7,6 +7,7 @@ class UserModel {
   final String password;
   final String uid;
   final int adharNumber;
+  final bool isAdmin = false;
   UserModel({
     required this.name,
     required this.email,

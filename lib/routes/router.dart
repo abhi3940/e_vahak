@@ -1,3 +1,5 @@
+import 'package:e_vahak/core/common/extra_screens/done.dart';
+import 'package:e_vahak/features/admin/screen/admin_screen.dart';
 import 'package:e_vahak/features/auth/screens/login_screen.dart';
 import 'package:e_vahak/features/auth/screens/signup_screen.dart';
 import 'package:e_vahak/features/home/screens/home_screen.dart';
@@ -6,6 +8,7 @@ import 'package:e_vahak/features/payment/screens/success_screen.dart';
 import 'package:e_vahak/features/ticket/screens/add_details_screen.dart';
 import 'package:e_vahak/features/ticket/screens/select_destination_screen.dart';
 import 'package:e_vahak/features/ticket/screens/select_source_screen.dart';
+import 'package:e_vahak/features/ticket/screens/ticket_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:routemaster/routemaster.dart';
 
@@ -24,6 +27,16 @@ final loggedInRoutes = RouteMap(
     '/addticketDetails': (_) => const MaterialPage<void>(child: PassengerDetails()),
     '/confirmation': (_) => const MaterialPage<void>(child: Confirm()),
     '/success': (_) => const MaterialPage<void>(child: Success()),
+    '/ticketDetails': (_) => const MaterialPage<void>(child: Ticket()),
 
   },
 );
+
+final adminRoutes = RouteMap(
+  routes: {
+    '/': (_) => const MaterialPage<void>(child: AdminScreen()),
+    '/ticketDetails': (_) => const MaterialPage<void>(child: Ticket()),
+    '/done': (_) => const MaterialPage<void>(child: Done()),
+  },
+);
+

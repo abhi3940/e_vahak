@@ -56,7 +56,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 height: 40,
               ),
               CustomTextFeilds(
-                hint: 'Mobile Number',
+                hint: 'Email',
                 controller: mobileNumberController,
               ),
               PasswordField(

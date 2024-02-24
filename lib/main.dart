@@ -1,6 +1,7 @@
 import 'package:e_vahak/core/common/widgets/error.dart';
 import 'package:e_vahak/core/common/widgets/loader.dart';
 import 'package:e_vahak/features/auth/controller/auth_controller.dart';
+import 'package:e_vahak/features/auth/repository/auth_repository.dart';
 import 'package:e_vahak/firebase_options.dart';
 import 'package:e_vahak/routes/router.dart';
 import 'package:e_vahak/theme/theme.dart';
@@ -27,7 +28,6 @@ class MyApp extends ConsumerStatefulWidget {
 class _MyAppState extends ConsumerState<MyApp> {
   @override
   Widget build(BuildContext context) {
-    //final authRepository = ref.watch(authRepositoryProvider);
     return ref.watch(authStateChangeProvider).when(
         data: (data) => MaterialApp.router(
               theme: theme,
@@ -35,16 +35,17 @@ class _MyAppState extends ConsumerState<MyApp> {
               title: 'e-Vahak',
               routerDelegate: RoutemasterDelegate(routesBuilder: (context) {
                 if (data == null) {
-                  print('data null');
                   return loggedOutRoutes;
                 } else {
-                  print(data.uid);
+                  if (data.uid == 'HJ8WMKkyi8SEXkeZm0WxLtyQrEI3') {
+                    return adminRoutes;
+                  }
                   return loggedInRoutes;
                 }
               }),
               routeInformationParser: const RoutemasterParser(),
             ),
         error: (error, stackTrace) => ErrorText(error: error.toString()),
-        loading: () =>  const Loader());
+        loading: () => const Loader());
   }
 }

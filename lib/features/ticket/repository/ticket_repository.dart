@@ -7,8 +7,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final getTicketProvider = StreamProvider((ref) {
   final uid = ref.watch(userIdProvider);
-  print(uid);
   return ref.read(ticketRepositoryProvider).getTickets(uid);
+});
+
+final getBusTicketProvider = StreamProvider((ref) {
+  return ref.read(ticketRepositoryProvider).getTickets('');
 });
 
 final ticketRepositoryProvider = Provider<TicketRepository>((ref) {
@@ -17,7 +20,6 @@ final ticketRepositoryProvider = Provider<TicketRepository>((ref) {
 
 final ticketProvider = StateProvider<TicketModel>((ref) {
   final uid = ref.watch(userIdProvider);
-  print(uid);
   return TicketModel(
     source: '',
     destination: '',
@@ -63,64 +65,18 @@ class TicketRepository {
         );
   }
 
-  void updateTicketSource(String source, WidgetRef ref, TicketModel ticket) {
-    ref
-        .read(ticketProvider.notifier)
-        .update((state) => ticket.copyWith(source: source));
+  Stream<List<TicketModel>> getBusTickets(String busId) {
+    return _tickets
+        .where('busId', isEqualTo: busId)
+        .orderBy('createdAt', descending: true)
+        .snapshots()
+        .map(
+          (event) => event.docs
+              .map(
+                (e) => TicketModel.fromMap(e.data() as Map<String, dynamic>),
+              )
+              .toList(),
+        );
   }
 
-  void updateTicketDestination(
-      String destination, WidgetRef ref, TicketModel ticket) {
-    ref
-        .read(ticketProvider.notifier)
-        .update((state) => ticket.copyWith(destination: destination));
-  }
-
-  void updateTicketDate(String date, WidgetRef ref, TicketModel ticket) {
-    ref
-        .read(ticketProvider.notifier)
-        .update((state) => ticket.copyWith(date: date));
-  }
-
-  void updateTicketTime(String time, WidgetRef ref, TicketModel ticket) {
-    ref
-        .read(ticketProvider.notifier)
-        .update((state) => ticket.copyWith(time: time));
-  }
-
-  void updateTicketId(String ticketId, WidgetRef ref, TicketModel ticket) {
-    ref
-        .read(ticketProvider.notifier)
-        .update((state) => ticket.copyWith(ticketId: ticketId));
-  }
-
-  void updateTicketBusId(String busId, WidgetRef ref, TicketModel ticket) {
-    ref
-        .read(ticketProvider.notifier)
-        .update((state) => ticket.copyWith(busId: busId));
-  }
-
-  void updateTicketUid(String uid, WidgetRef ref, TicketModel ticket) {
-    ref
-        .read(ticketProvider.notifier)
-        .update((state) => ticket.copyWith(uid: uid));
-  }
-
-  void updateTicketPrice(int price, WidgetRef ref, TicketModel ticket) {
-    ref
-        .read(ticketProvider.notifier)
-        .update((state) => ticket.copyWith(price: price));
-  }
-
-  void updateTicketFullSeats(int fullSeats, WidgetRef ref, TicketModel ticket) {
-    ref
-        .read(ticketProvider.notifier)
-        .update((state) => ticket.copyWith(fullSeats: fullSeats));
-  }
-
-  void updateTicketHalfSeats(int halfSeats, WidgetRef ref, TicketModel ticket) {
-    ref
-        .read(ticketProvider.notifier)
-        .update((state) => ticket.copyWith(halfSeats: halfSeats));
-  }
 }
