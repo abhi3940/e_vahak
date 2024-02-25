@@ -27,7 +27,7 @@ final loggedInRoutes = RouteMap(
     '/addticketDetails': (_) => const MaterialPage<void>(child: PassengerDetails()),
     '/confirmation': (_) => const MaterialPage<void>(child: Confirm()),
     '/success': (_) => const MaterialPage<void>(child: Success()),
-    '/ticketDetails': (_) => const MaterialPage<void>(child: Ticket()),
+    '/ticketDetails/:tid': (route) => MaterialPage<void>(child: Ticket(tid: route.pathParameters['tid']!)),
 
   },
 );
@@ -35,7 +35,7 @@ final loggedInRoutes = RouteMap(
 final adminRoutes = RouteMap(
   routes: {
     '/': (_) => const MaterialPage<void>(child: AdminScreen()),
-    '/ticketDetails': (_) => const MaterialPage<void>(child: Ticket()),
+    '/ticketDetails/:tid': (route) => MaterialPage<void>(child: Ticket(tid: route.pathParameters['tid']!)),
     '/done': (_) => const MaterialPage<void>(child: Done()),
   },
 );

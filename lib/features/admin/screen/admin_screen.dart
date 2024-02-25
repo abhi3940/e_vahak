@@ -17,22 +17,19 @@ class AdminScreen extends ConsumerWidget {
           'E-Vahak',
           style: Theme.of(context).textTheme.titleLarge,
         ),
-        leading: Builder(
-          builder: (context) {
-            return IconButton(
-                icon: const Icon(Icons.menu, color: Pallete.grey3),
-                onPressed: () {
-                  Scaffold.of(context).openDrawer();
-                });
-          }
-        ),
+        leading: Builder(builder: (context) {
+          return IconButton(
+              icon: const Icon(Icons.menu, color: Pallete.grey3),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              });
+        }),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
@@ -47,12 +44,15 @@ class AdminScreen extends ConsumerWidget {
                     child: ListView.builder(
                         itemCount: ticket.length,
                         itemBuilder: (context, index) {
+                          print(ticket[index].ticketId);
+                          print(ticket[index].price);
                           return TicketCard(
                             source: ticket[index].source,
                             destination: ticket[index].destination,
                             fullSeats: ticket[index].fullSeats,
                             halfSeats: ticket[index].halfSeats,
                             price: ticket[index].price,
+                            tid: ticket[index].ticketId,
                           );
                         }),
                   );
@@ -73,9 +73,8 @@ class AdminScreen extends ConsumerWidget {
                     ),
                   );
                 }),
-            
             const SizedBox(
-                height: 10,
+              height: 10,
             ),
           ],
         ),

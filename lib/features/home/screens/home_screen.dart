@@ -27,7 +27,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     Scaffold.of(context).openDrawer();
   }
 
-
   String qrScanRes = '';
 
   @override
@@ -70,22 +69,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           'E-Vahak',
           style: Theme.of(context).textTheme.titleLarge,
         ),
-        leading: Builder(
-          builder: (context) {
-            return IconButton(
-                icon: const Icon(Icons.menu, color: Pallete.grey3),
-                onPressed: () {
-                  Scaffold.of(context).openDrawer();
-                });
-          }
-        ),
+        leading: Builder(builder: (context) {
+          return IconButton(
+              icon: const Icon(Icons.menu, color: Pallete.grey3),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              });
+        }),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
@@ -100,12 +96,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     child: ListView.builder(
                         itemCount: ticket.length,
                         itemBuilder: (context, index) {
+                          print(ticket[index].ticketId.toString());
                           return TicketCard(
                             source: ticket[index].source,
                             destination: ticket[index].destination,
                             fullSeats: ticket[index].fullSeats,
                             halfSeats: ticket[index].halfSeats,
                             price: ticket[index].price,
+                            tid: ticket[index].ticketId.toString(),
                           );
                         }),
                   );
@@ -135,7 +133,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 title: 'Book Tickets',
                 onTapBtn: () => navigateToSelectSource(context)),
             const SizedBox(
-                height: 10,
+              height: 10,
             ),
           ],
         ),
@@ -144,6 +142,3 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 }
-
-
-

@@ -1,6 +1,8 @@
-import 'package:e_vahak/theme/pallete.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:routemaster/routemaster.dart';
+
+import 'package:e_vahak/theme/pallete.dart';
 
 class TicketCard extends StatelessWidget {
   final String source;
@@ -8,6 +10,7 @@ class TicketCard extends StatelessWidget {
   final int fullSeats;
   final int halfSeats;
   final int price;
+  final String tid;
   const TicketCard({
     Key? key,
     required this.source,
@@ -15,10 +18,13 @@ class TicketCard extends StatelessWidget {
     required this.fullSeats,
     required this.halfSeats,
     required this.price,
+    required this.tid,
   }) : super(key: key);
 
   void navigateToTicketDetails(BuildContext context) {
-    Routemaster.of(context).push('/ticketDetails');
+    print('is tid null $tid');
+
+    Routemaster.of(context).push('/ticketDetails/$tid');
   }
 
   @override
@@ -26,7 +32,7 @@ class TicketCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       child: GestureDetector(
-        onTap: (){
+        onTap: () {
           navigateToTicketDetails(context);
         },
         child: Container(

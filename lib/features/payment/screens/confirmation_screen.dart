@@ -119,8 +119,8 @@ class _ConfirmState extends ConsumerState<Confirm> {
     var options = {
       'key': 'rzp_test_XmpG9DGEHl7iYz',
       'name': 'E-vahak',
-      'description': 'PMPML',
-      'prefill': {'contact': '7410189576', 'email': user!.email, 'route': '${ticket.source} to ${ticket.destination}' , 'number of seats':ticket.fullSeats+ticket.halfSeats },
+      'description': '${ticket.source} to ${ticket.destination} ${ticket.fullSeats+ticket.halfSeats} Seats',
+      'prefill': {'contact': '7410189576', 'email': user?.email, 'route': '${ticket.source} to ${ticket.destination}' , 'number of seats':ticket.fullSeats+ticket.halfSeats },
       "amount": amount,
       "timeout": 60,
       "external": {

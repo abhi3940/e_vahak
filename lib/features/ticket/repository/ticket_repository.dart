@@ -4,6 +4,7 @@ import 'package:e_vahak/features/auth/controller/auth_controller.dart';
 import 'package:e_vahak/models/tickets.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:uuid/uuid.dart';
 
 final getTicketProvider = StreamProvider((ref) {
   final uid = ref.watch(userIdProvider);
@@ -11,7 +12,11 @@ final getTicketProvider = StreamProvider((ref) {
 });
 
 final getBusTicketProvider = StreamProvider((ref) {
-  return ref.read(ticketRepositoryProvider).getTickets('');
+  return ref.read(ticketRepositoryProvider).getBusTickets('');
+});
+
+final getTicketByIdProvider = StreamProvider.family((ref, String ticketId) {
+  return ref.read(ticketRepositoryProvider).getTicketById(ticketId);
 });
 
 final ticketRepositoryProvider = Provider<TicketRepository>((ref) {
@@ -25,7 +30,7 @@ final ticketProvider = StateProvider<TicketModel>((ref) {
     destination: '',
     date: '',
     time: DateTime.now().toString(),
-    ticketId: '',
+    ticketId: const Uuid().v1(),
     busId: '',
     uid: uid,
     price: 0,
@@ -79,4 +84,14 @@ class TicketRepository {
         );
   }
 
+  Stream<TicketModel> getTicketById(String ticketId) {
+    print('why can;t it return a match $ticketId');
+    return _tickets.where('ticketId', isEqualTo: ticketId).snapshots().map(
+          (event) => event.docs
+              .map(
+                (e) => TicketModel.fromMap(e.data() as Map<String, dynamic>),
+              )
+              .first,
+        );
+  }
 }

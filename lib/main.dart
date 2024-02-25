@@ -1,7 +1,6 @@
 import 'package:e_vahak/core/common/widgets/error.dart';
 import 'package:e_vahak/core/common/widgets/loader.dart';
 import 'package:e_vahak/features/auth/controller/auth_controller.dart';
-import 'package:e_vahak/features/auth/repository/auth_repository.dart';
 import 'package:e_vahak/firebase_options.dart';
 import 'package:e_vahak/routes/router.dart';
 import 'package:e_vahak/theme/theme.dart';
