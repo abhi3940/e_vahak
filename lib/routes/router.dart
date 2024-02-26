@@ -3,6 +3,7 @@ import 'package:e_vahak/features/admin/screen/admin_screen.dart';
 import 'package:e_vahak/features/auth/screens/login_screen.dart';
 import 'package:e_vahak/features/auth/screens/signup_screen.dart';
 import 'package:e_vahak/features/home/screens/home_screen.dart';
+import 'package:e_vahak/features/payment/screens/confirmation_for_pass.dart';
 import 'package:e_vahak/features/payment/screens/confirmation_screen.dart';
 import 'package:e_vahak/features/payment/screens/success_screen.dart';
 import 'package:e_vahak/features/ticket/screens/add_details_screen.dart';
@@ -28,7 +29,7 @@ final loggedInRoutes = RouteMap(
     '/confirmation': (_) => const MaterialPage<void>(child: Confirm()),
     '/success': (_) => const MaterialPage<void>(child: Success()),
     '/ticketDetails/:tid': (route) => MaterialPage<void>(child: Ticket(tid: route.pathParameters['tid']!)),
-
+    '/bookpass': (_) => const MaterialPage<void>(child: ConfirmationForPass()),
   },
 );
 

@@ -22,7 +22,7 @@ class TicketCard extends StatelessWidget {
   }) : super(key: key);
 
   void navigateToTicketDetails(BuildContext context) {
-    print('is tid null $tid');
+
 
     Routemaster.of(context).push('/ticketDetails/$tid');
   }

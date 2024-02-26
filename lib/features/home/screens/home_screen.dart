@@ -23,6 +23,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     Routemaster.of(context).push('/selectSource');
   }
 
+  void navigateToBookPass(BuildContext context) {
+    Routemaster.of(context).push('/bookpass');
+  }
+
   void displayDrawer(BuildContext context) {
     Scaffold.of(context).openDrawer();
   }
@@ -96,7 +100,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     child: ListView.builder(
                         itemCount: ticket.length,
                         itemBuilder: (context, index) {
-                          print(ticket[index].ticketId.toString());
+                          //print(ticket[index].ticketId.toString());
                           return TicketCard(
                             source: ticket[index].source,
                             destination: ticket[index].destination,
@@ -127,11 +131,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             PrimaryButton(
                 title: 'Book Pass',
                 onTapBtn: () {
-                  scanQR();
+                  navigateToBookPass(context);
                 }),
             PrimaryButton(
                 title: 'Book Tickets',
-                onTapBtn: () => navigateToSelectSource(context)),
+                // onTapBtn: () {
+                //   scanQR();
+                // }),
+                onTapBtn: () => navigateToSelectSource(context)
+                ),
             const SizedBox(
               height: 10,
             ),

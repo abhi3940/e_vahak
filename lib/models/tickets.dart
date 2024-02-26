@@ -27,7 +27,7 @@ class TicketModel {
     required this.createdAt,
   });
 
-  TicketModel copyWith({
+  TicketModel copyWith( {
     String? source,
     String? destination,
     int? fullSeats,

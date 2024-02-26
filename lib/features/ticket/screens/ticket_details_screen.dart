@@ -28,7 +28,6 @@ class Ticket extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    print('tid $tid');
     final ticket = ref.watch(getTicketByIdProvider(tid)).value;
     final date = ticket?.time;
     final stops = '${ticket?.source}     To     ${ticket?.destination}';

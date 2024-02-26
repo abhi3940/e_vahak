@@ -85,7 +85,6 @@ class TicketRepository {
   }
 
   Stream<TicketModel> getTicketById(String ticketId) {
-    print('why can;t it return a match $ticketId');
     return _tickets.where('ticketId', isEqualTo: ticketId).snapshots().map(
           (event) => event.docs
               .map(

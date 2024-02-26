@@ -44,8 +44,7 @@ class AdminScreen extends ConsumerWidget {
                     child: ListView.builder(
                         itemCount: ticket.length,
                         itemBuilder: (context, index) {
-                          print(ticket[index].ticketId);
-                          print(ticket[index].price);
+                          
                           return TicketCard(
                             source: ticket[index].source,
                             destination: ticket[index].destination,
