@@ -57,30 +57,50 @@ class Ticket extends ConsumerWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(children: [
-                    
-                        Text(
-                          date?.toString() ?? '',
-                          style: const TextStyle(color: Colors.black),
-                        ),
-                      
+                    Text(
+                      date?.toString() ?? '',
+                      style: const TextStyle(color: Colors.black),
+                    ),
                     const SizedBox(
                       height: 24,
                     ),
-                    Center(child: Text(stops,style: const TextStyle(color: Colors.black),)),
+                    Center(
+                        child: Text(
+                      stops,
+                      style: const TextStyle(color: Colors.black),
+                    )),
                     const SizedBox(
                       height: 24,
                     ),
-                    Text(full,style: const TextStyle(color: Colors.black),),
-                    Text(half,style: const TextStyle(color: Colors.black),),
+                    Text(
+                      full,
+                      style: const TextStyle(color: Colors.black),
+                    ),
+                    Text(
+                      half,
+                      style: const TextStyle(color: Colors.black),
+                    ),
                     const SizedBox(
                       height: 24,
                     ),
-                    Center(child: Text(price,style: const TextStyle(color: Colors.black),)),
+                    Center(
+                        child: Text(
+                      price,
+                      style: const TextStyle(color: Colors.black),
+                    )),
                     const SizedBox(
                       height: 24,
                     ),
-                    const Center(child: Text("NOT TRANSFERABLE",style: TextStyle(color: Colors.black),)),
-                    const Center(child: Text("HELPLINE : 1000-88-6969",style: TextStyle(color: Colors.black),)),
+                    const Center(
+                        child: Text(
+                      "NOT TRANSFERABLE",
+                      style: TextStyle(color: Colors.black),
+                    )),
+                    const Center(
+                        child: Text(
+                      "HELPLINE : 1000-88-6969",
+                      style: TextStyle(color: Colors.black),
+                    )),
                   ]),
                 ),
               ),
